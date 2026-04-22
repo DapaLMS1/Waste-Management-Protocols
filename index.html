@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Zones: Mapping the Risk in the Surgery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#532A8C',
+                        'brand-muted': '#9D8ABB',
+                        'brand-green': '#7ABF49',
+                        'brand-light-green': '#96BF78',
+                        'brand-bg': '#F2F2F2',
+                        'brand-light-purple': '#C3ACE8'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Hotspot animation */
+        .hotspot-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .hotspot-btn {
+            transition: all 0.3s ease;
+        }
+        .hotspot-btn.active {
+            background-color: #532A8C; /* brand-dark */
+            color: white;
+            border-color: white;
+            transform: scale(1.1);
+            z-index: 20;
+        }
+        .hotspot-btn:not(.active):hover {
+            transform: scale(1.1);
+            background-color: #9D8ABB; /* brand-muted */
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-800 h-screen p-4 md:p-6 antialiased flex flex-col overflow-hidden">
+
+    <div class="w-full h-full mx-auto flex flex-col gap-4 md:gap-6 flex-1 overflow-hidden max-w-7xl">
+        
+        <!-- Header Section -->
+        <header class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:px-6 md:py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-t-4 border-t-brand-dark shrink-0">
+            <div class="flex-shrink-0">
+                <h1 class="text-xl md:text-2xl font-bold text-brand-dark mb-1">Clinical Zones</h1>
+                <div class="inline-block bg-brand-light-purple/20 text-brand-dark px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
+                    Mapping the Risk in the Surgery
+                </div>
+            </div>
+            <p class="text-gray-600 text-sm leading-relaxed max-w-2xl md:text-right">
+                By understanding how the dental operatory is "mapped," you can effectively manage environmental cleaning and prevent cross-infection. We divide the workspace into three distinct categories based on their proximity to the patient and the level of contamination risk.
+            </p>
+        </header>
+
+        <!-- Main Interactive Workspace -->
+        <main class="flex flex-col lg:flex-row gap-4 md:gap-6 flex-1 overflow-hidden">
+            
+            <!-- Left: Visual Diagram -->
+            <div class="lg:w-1/2 bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-8 flex flex-col relative shrink-0 min-h-[350px] lg:min-h-0 overflow-hidden">
+                <h2 class="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 md:mb-4 w-full text-left flex-shrink-0">Dental Operatory Schematic</h2>
+                
+                <!-- SVG Diagram Container -->
+                <div class="relative w-full max-w-[500px] aspect-square mx-auto my-auto">
+                    <!-- Base SVG Graphic -->
+                    <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-md rounded-lg" style="background-color: #ffffff; border: 2px solid #e2e8f0;">
+                        <!-- Room Structure (Walls) -->
+                        <rect x="10" y="10" width="480" height="480" fill="none" stroke="#94a3b8" stroke-width="4" />
+                        <!-- Door opening -->
+                        <line x1="10" y1="400" x2="10" y2="480" stroke="#ffffff" stroke-width="6" />
+                        <path d="M10 400 A 80 80 0 0 1 90 480" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
+
+                        <!-- Zone 3: Clean Zone (Top Cabinets/Drawers) -->
+                        <rect x="250" y="12" width="238" height="60" fill="#96BF78" fill-opacity="0.15" stroke="#7ABF49" stroke-width="2" />
+                        <rect x="260" y="20" width="100" height="40" fill="#ffffff" stroke="#7ABF49" stroke-width="1.5" rx="2" />
+                        <rect x="375" y="20" width="100" height="40" fill="#ffffff" stroke="#7ABF49" stroke-width="1.5" rx="2" />
+                        <text x="369" y="45" font-family="sans-serif" font-size="10" fill="#7ABF49" text-anchor="middle" font-weight="bold">CLEAN STORAGE</text>
+
+                        <!-- Zone 2: Clinical Contact Surfaces (Benchtops & Sinks) -->
+                        <!-- Left Bench -->
+                        <rect x="12" y="100" width="60" height="280" fill="#f1f5f9" stroke="#9D8ABB" stroke-width="2" />
+                        <circle cx="42" cy="150" r="15" fill="#e2e8f0" stroke="#9D8ABB" stroke-width="1" />
+                        <circle cx="42" cy="150" r="10" fill="#cbd5e1" />
+                        <rect x="22" y="200" width="40" height="170" fill="none" stroke="#9D8ABB" stroke-width="1" stroke-dasharray="2" />
+                        
+                        <!-- Right Bench / Assistants side -->
+                        <rect x="428" y="100" width="60" height="200" fill="#f1f5f9" stroke="#9D8ABB" stroke-width="2" />
+                        <rect x="438" y="120" width="40" height="160" fill="none" stroke="#9D8ABB" stroke-width="1" stroke-dasharray="2" />
+
+                        <!-- Zone 1: Contaminated Zone (2m Radius) -->
+                        <circle cx="250" cy="240" r="140" fill="#C3ACE8" fill-opacity="0.15" stroke="#532A8C" stroke-width="2" stroke-dasharray="8,4" />
+                        
+                        <!-- Dental Chair and Equipment (Center) -->
+                        <!-- Chair base -->
+                        <rect x="220" y="180" width="60" height="150" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" rx="10" />
+                        <!-- Backrest -->
+                        <rect x="225" y="190" width="50" height="70" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" rx="8" />
+                        <!-- Headrest (Patient Mouth Location) -->
+                        <circle cx="250" cy="170" r="20" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" />
+                        <!-- Footrest -->
+                        <rect x="230" y="270" width="40" height="50" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" rx="4" />
+                        <!-- Delivery Unit (Swing arm) -->
+                        <path d="M 180 300 L 180 230 L 210 230" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="160" y="300" width="40" height="30" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="2" />
+
+                    </svg>
+
+                    <!-- Interactive Hotspots (Absolute positioning over SVG) -->
+                    <!-- 1. The Contaminated Zone -->
+                    <div class="absolute top-[48%] left-[50%] -translate-x-1/2 -translate-y-1/2">
+                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
+                        <button onclick="selectZone('contaminated')" id="btn-contaminated" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="Contaminated Zone">
+                            1
+                        </button>
+                    </div>
+
+                    <!-- 2. Clinical Contact Surfaces -->
+                    <div class="absolute top-[50%] left-[8.5%] -translate-x-1/2 -translate-y-1/2">
+                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
+                        <button onclick="selectZone('contact')" id="btn-contact" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="Clinical Contact Surfaces">
+                            2
+                        </button>
+                    </div>
+
+                    <!-- 3. The Clean Zone -->
+                    <div class="absolute top-[8.5%] left-[74%] -translate-x-1/2 -translate-y-1/2">
+                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
+                        <button onclick="selectZone('clean')" id="btn-clean" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="The Clean Zone">
+                            3
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Content Display Panel -->
+            <div class="lg:w-1/2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col overflow-y-auto shrink-0 lg:shrink h-full">
+                <div class="p-4 border-b border-gray-100 bg-gray-50 shrink-0">
+                    <h3 class="font-bold text-gray-700">Zone Details Viewer</h3>
+                </div>
+                
+                <div id="content-display" class="p-4 md:p-6 lg:p-8 flex-1 flex flex-col justify-start relative">
+                    <!-- Default State -->
+                    <div id="default-state" class="text-center fade-in my-auto">
+                        <div class="w-16 h-16 md:w-20 md:h-20 bg-brand-light-purple/20 text-brand-dark rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-bold text-brand-dark mb-4">Select a Clinical Zone</h3>
+                        <p class="text-gray-600 text-sm md:text-base max-w-md mx-auto">
+                            Click on the numbered markers located on the operatory schematic to reveal the definitions, boundaries, and specific cleaning protocols for that area.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        const zoneData = {
+            'contaminated': {
+                number: 1,
+                color: 'brand-dark',
+                title: 'The Contaminated Zone (Zone of Activity)',
+                content: '<p class="mb-2">This is the <strong>"centre" of risk</strong>. It is the immediate working area around the patient chair where splashes, splatter, and aerosols are most likely to land during treatment.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Occupants:</strong> This area is occupied by the patient, the clinician, and the dental assistant.</li><li><strong>The Boundary:</strong> Any surface within a <strong>2-metre radius</strong> of the patient’s mouth is generally considered part of this zone.</li><li><strong>Special Attention:</strong> Because this is the "Zone of Contamination," it requires meticulous cleaning and decontamination between every patient to break the Chain of Infection.</li></ul>'
+            },
+            'contact': {
+                number: 2,
+                color: 'brand-muted',
+                title: 'Clinical Contact Surfaces',
+                content: '<p class="mb-2">These are surfaces that sit outside the immediate splash zone but are frequently touched throughout an appointment.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Examples:</strong> This includes light switches, drawer handles, or any surface touched by contaminated gloved hands. It also includes benchtops used to place instruments, materials, or patient items like glasses or a cup.</li><li><strong>The Transition Rule:</strong> Crucially, if a benchtop or surface in a "cleaner" area is touched or used in this way, it <em>immediately becomes part of the Contaminated Zone</em> for that procedure and must be fully cleaned before the next patient.</li></ul>'
+            },
+            'clean': {
+                number: 3,
+                color: 'brand-green',
+                title: 'The Clean Zone',
+                content: '<p class="mb-2">This zone is your <strong>"Safe Harbour."</strong> It is dedicated to the storage of sterile and clean items to ensure they never come into contact with contaminated materials.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Includes:</strong> Protected storage areas such as closed drawers, cupboards, and dedicated sterile instrument storage.</li><li><strong>Maintenance:</strong> These areas must be kept strictly free of dust, as dust can harbour microorganisms and act as a potential reservoir for infection. Horizontal surfaces in this zone must be damp-dusted daily.</li></ul>'
+            }
+        };
+
+        function selectZone(zoneId) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.hotspot-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            const activeBtn = document.getElementById(`btn-${zoneId}`);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Fetch data
+            const data = zoneData[zoneId];
+            const displayArea = document.getElementById('content-display');
+
+            // Create new content with animation trigger
+            const newContent = `
+                <div class="fade-in max-w-2xl mx-auto w-full">
+                    <div class="flex items-center gap-3 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-gray-100">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-${data.color} text-white flex items-center justify-center text-base md:text-lg font-bold flex-shrink-0 shadow-md">
+                            ${data.number}
+                        </div>
+                        <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-brand-dark leading-tight">${data.title}</h2>
+                    </div>
+                    
+                    <div class="bg-brand-bg/50 border-l-4 border-${data.color} p-4 rounded-r-lg">
+                        <div class="text-gray-800 text-sm md:text-base leading-snug md:leading-relaxed">
+                            ${data.content}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Clear current and insert new
+            displayArea.innerHTML = '';
+            
+            // Small timeout ensures the DOM registers the change so the CSS animation fires properly
+            setTimeout(() => {
+                displayArea.innerHTML = newContent;
+            }, 10);
+        }
+    </script>
+</body>
+</html>

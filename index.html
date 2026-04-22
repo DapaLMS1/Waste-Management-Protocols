@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Zones: Mapping the Risk in the Surgery</title>
+    <title>Dental Waste Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,221 +25,307 @@
         }
     </script>
     <style>
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out forwards;
+        .fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Hotspot animation */
-        .hotspot-pulse {
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        
+        .stagger-1 { animation-delay: 0.05s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.15s; }
+
+        /* Custom scrollbar for content area */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background-color: #C3ACE8; border-radius: 10px; }
+        
+        /* Hide scrollbar for mobile nav */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .nav-btn {
+            transition: all 0.2s ease;
         }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.8); opacity: 0.8; }
-            100% { transform: scale(2.5); opacity: 0; }
+        .nav-btn.active {
+            background-color: #FAFAFA;
+            color: #532A8C;
         }
-        .hotspot-btn {
-            transition: all 0.3s ease;
+        .nav-btn.active .icon-box {
+            background-color: white;
+            color: #532A8C;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .hotspot-btn.active {
-            background-color: #532A8C; /* brand-dark */
+        .nav-btn:not(.active) {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .nav-btn:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
-            border-color: white;
-            transform: scale(1.1);
-            z-index: 20;
         }
-        .hotspot-btn:not(.active):hover {
-            transform: scale(1.1);
-            background-color: #9D8ABB; /* brand-muted */
+        .nav-btn:not(.active) .icon-box {
+            background-color: rgba(255, 255, 255, 0.15);
             color: white;
         }
     </style>
 </head>
-<body class="bg-brand-bg text-gray-800 h-screen p-4 md:p-6 antialiased flex flex-col overflow-hidden">
+<body class="bg-brand-bg text-gray-800 h-screen w-full antialiased p-2 md:p-4 font-sans overflow-hidden">
 
-    <div class="w-full h-full mx-auto flex flex-col gap-4 md:gap-6 flex-1 overflow-hidden max-w-7xl">
+    <!-- App Container (Side-by-side dashboard) -->
+    <div class="w-full h-full max-w-[1800px] mx-auto bg-white rounded-xl md:rounded-2xl shadow-xl border border-gray-200 flex flex-col md:flex-row overflow-hidden relative">
         
-        <!-- Header Section -->
-        <header class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:px-6 md:py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 border-t-4 border-t-brand-dark shrink-0">
-            <div class="flex-shrink-0">
-                <h1 class="text-xl md:text-2xl font-bold text-brand-dark mb-1">Clinical Zones</h1>
-                <div class="inline-block bg-brand-light-purple/20 text-brand-dark px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-                    Mapping the Risk in the Surgery
-                </div>
-            </div>
-            <p class="text-gray-600 text-sm leading-relaxed max-w-2xl md:text-right">
-                By understanding how the dental operatory is "mapped," you can effectively manage environmental cleaning and prevent cross-infection. We divide the workspace into three distinct categories based on their proximity to the patient and the level of contamination risk.
-            </p>
-        </header>
-
-        <!-- Main Interactive Workspace -->
-        <main class="flex flex-col lg:flex-row gap-4 md:gap-6 flex-1 overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="md:w-72 lg:w-80 bg-brand-dark flex flex-col flex-shrink-0 relative overflow-hidden z-10 shadow-lg md:shadow-none">
+            <!-- Decorative background -->
+            <div class="absolute top-0 right-0 w-48 h-48 bg-brand-light-purple opacity-10 rounded-full blur-3xl -mt-10 -mr-10 pointer-events-none"></div>
             
-            <!-- Left: Visual Diagram -->
-            <div class="lg:w-1/2 bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-8 flex flex-col relative shrink-0 min-h-[350px] lg:min-h-0 overflow-hidden">
-                <h2 class="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 md:mb-4 w-full text-left flex-shrink-0">Dental Operatory Schematic</h2>
-                
-                <!-- SVG Diagram Container -->
-                <div class="relative w-full max-w-[500px] aspect-square mx-auto my-auto">
-                    <!-- Base SVG Graphic -->
-                    <svg viewBox="0 0 500 500" class="w-full h-full drop-shadow-md rounded-lg" style="background-color: #ffffff; border: 2px solid #e2e8f0;">
-                        <!-- Room Structure (Walls) -->
-                        <rect x="10" y="10" width="480" height="480" fill="none" stroke="#94a3b8" stroke-width="4" />
-                        <!-- Door opening -->
-                        <line x1="10" y1="400" x2="10" y2="480" stroke="#ffffff" stroke-width="6" />
-                        <path d="M10 400 A 80 80 0 0 1 90 480" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4" />
-
-                        <!-- Zone 3: Clean Zone (Top Cabinets/Drawers) -->
-                        <rect x="250" y="12" width="238" height="60" fill="#96BF78" fill-opacity="0.15" stroke="#7ABF49" stroke-width="2" />
-                        <rect x="260" y="20" width="100" height="40" fill="#ffffff" stroke="#7ABF49" stroke-width="1.5" rx="2" />
-                        <rect x="375" y="20" width="100" height="40" fill="#ffffff" stroke="#7ABF49" stroke-width="1.5" rx="2" />
-                        <text x="369" y="45" font-family="sans-serif" font-size="10" fill="#7ABF49" text-anchor="middle" font-weight="bold">CLEAN STORAGE</text>
-
-                        <!-- Zone 2: Clinical Contact Surfaces (Benchtops & Sinks) -->
-                        <!-- Left Bench -->
-                        <rect x="12" y="100" width="60" height="280" fill="#f1f5f9" stroke="#9D8ABB" stroke-width="2" />
-                        <circle cx="42" cy="150" r="15" fill="#e2e8f0" stroke="#9D8ABB" stroke-width="1" />
-                        <circle cx="42" cy="150" r="10" fill="#cbd5e1" />
-                        <rect x="22" y="200" width="40" height="170" fill="none" stroke="#9D8ABB" stroke-width="1" stroke-dasharray="2" />
-                        
-                        <!-- Right Bench / Assistants side -->
-                        <rect x="428" y="100" width="60" height="200" fill="#f1f5f9" stroke="#9D8ABB" stroke-width="2" />
-                        <rect x="438" y="120" width="40" height="160" fill="none" stroke="#9D8ABB" stroke-width="1" stroke-dasharray="2" />
-
-                        <!-- Zone 1: Contaminated Zone (2m Radius) -->
-                        <circle cx="250" cy="240" r="140" fill="#C3ACE8" fill-opacity="0.15" stroke="#532A8C" stroke-width="2" stroke-dasharray="8,4" />
-                        
-                        <!-- Dental Chair and Equipment (Center) -->
-                        <!-- Chair base -->
-                        <rect x="220" y="180" width="60" height="150" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" rx="10" />
-                        <!-- Backrest -->
-                        <rect x="225" y="190" width="50" height="70" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" rx="8" />
-                        <!-- Headrest (Patient Mouth Location) -->
-                        <circle cx="250" cy="170" r="20" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" />
-                        <!-- Footrest -->
-                        <rect x="230" y="270" width="40" height="50" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" rx="4" />
-                        <!-- Delivery Unit (Swing arm) -->
-                        <path d="M 180 300 L 180 230 L 210 230" fill="none" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                        <rect x="160" y="300" width="40" height="30" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" rx="2" />
-
-                    </svg>
-
-                    <!-- Interactive Hotspots (Absolute positioning over SVG) -->
-                    <!-- 1. The Contaminated Zone -->
-                    <div class="absolute top-[48%] left-[50%] -translate-x-1/2 -translate-y-1/2">
-                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
-                        <button onclick="selectZone('contaminated')" id="btn-contaminated" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="Contaminated Zone">
-                            1
-                        </button>
-                    </div>
-
-                    <!-- 2. Clinical Contact Surfaces -->
-                    <div class="absolute top-[50%] left-[8.5%] -translate-x-1/2 -translate-y-1/2">
-                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
-                        <button onclick="selectZone('contact')" id="btn-contact" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="Clinical Contact Surfaces">
-                            2
-                        </button>
-                    </div>
-
-                    <!-- 3. The Clean Zone -->
-                    <div class="absolute top-[8.5%] left-[74%] -translate-x-1/2 -translate-y-1/2">
-                        <div class="absolute inset-0 rounded-full bg-brand-dark hotspot-pulse"></div>
-                        <button onclick="selectZone('clean')" id="btn-clean" class="hotspot-btn relative w-8 h-8 md:w-10 md:h-10 rounded-full bg-white border-2 border-brand-dark text-brand-dark font-bold shadow-lg flex items-center justify-center z-10" aria-label="The Clean Zone">
-                            3
-                        </button>
-                    </div>
+            <div class="p-4 md:p-6 pb-2 md:pb-6 flex-shrink-0">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 text-brand-light-purple text-[10px] font-bold tracking-wider uppercase mb-3 border border-white/10">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    Protocols
                 </div>
+                <h1 class="text-xl md:text-2xl font-bold text-white leading-tight">Waste Management</h1>
+                <p class="text-white/60 text-xs mt-2 hidden md:block">Select a waste stream to view correct segregation and disposal guidelines.</p>
             </div>
 
-            <!-- Right: Content Display Panel -->
-            <div class="lg:w-1/2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col overflow-y-auto shrink-0 lg:shrink h-full">
-                <div class="p-4 border-b border-gray-100 bg-gray-50 shrink-0">
-                    <h3 class="font-bold text-gray-700">Zone Details Viewer</h3>
-                </div>
+            <!-- Scrollable Nav Links -->
+            <nav class="flex md:flex-col gap-2 overflow-x-auto hide-scrollbar pl-4 pr-4 pb-4 md:pl-6 md:pr-0 md:pb-6 flex-1 md:overflow-y-auto custom-scroll">
                 
-                <div id="content-display" class="p-4 md:p-6 lg:p-8 flex-1 flex flex-col justify-start relative">
-                    <!-- Default State -->
-                    <div id="default-state" class="text-center fade-in my-auto">
-                        <div class="w-16 h-16 md:w-20 md:h-20 bg-brand-light-purple/20 text-brand-dark rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-lg md:text-xl font-bold text-brand-dark mb-4">Select a Clinical Zone</h3>
-                        <p class="text-gray-600 text-sm md:text-base max-w-md mx-auto">
-                            Click on the numbered markers located on the operatory schematic to reveal the definitions, boundaries, and specific cleaning protocols for that area.
-                        </p>
+                <button onclick="loadContent('general')" id="btn-general" class="nav-btn active flex-shrink-0 md:flex-shrink w-48 sm:w-56 md:w-full flex items-center gap-4 p-3 md:p-4 md:py-5 rounded-xl md:rounded-l-2xl md:rounded-r-none text-left text-base md:text-lg font-bold">
+                    <div class="icon-box w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </div>
-                </div>
-            </div>
+                    <span class="truncate">General</span>
+                </button>
 
+                <button onclick="loadContent('clinical')" id="btn-clinical" class="nav-btn flex-shrink-0 md:flex-shrink w-48 sm:w-56 md:w-full flex items-center gap-4 p-3 md:p-4 md:py-5 rounded-xl md:rounded-l-2xl md:rounded-r-none text-left text-base md:text-lg font-bold">
+                    <div class="icon-box w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <span class="truncate">Clinical</span>
+                </button>
+
+                <button onclick="loadContent('sharps')" id="btn-sharps" class="nav-btn flex-shrink-0 md:flex-shrink w-48 sm:w-56 md:w-full flex items-center gap-4 p-3 md:p-4 md:py-5 rounded-xl md:rounded-l-2xl md:rounded-r-none text-left text-base md:text-lg font-bold">
+                    <div class="icon-box w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjU2IDI1NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PGcgZmlsbD0iIzc4Nzg3OCI+PHBhdGggZD0iTTIwOS41MiA3Mi43OWgtNy45NmMtLjE1LTguMjktMS43Ni0yOC41MS0xMy42LTM1LjQ3LS41My0uMzEtMS4xMy0uNDctMS43NC0uNDdINjkuNzhjLS42MSAwLTEuMjIuMTYtMS43NC40Ny0xMS44NCA2Ljk2LTEzLjQ1IDI3LjE4LTEzLjYgMzUuNDdoLTcuOTZhMy40NCAzLjQ0IDAgMCAwLTMuNDQgMy40NHYxMC4zNGMwIDEuOSAxLjU0IDMuNDQgMy40NCAzLjQ0aDIuNjFsNC4zMiA1NC4wM2MtLjA3LjMyLS4xNC42My0uMTIuOTdsNC45MyA2MS42NGMuNTYgNy4wMiA2LjUyIDEyLjUyIDEzLjU2IDEyLjUyaDExMi4wNmM3LjA0IDAgMTMtNS41IDEzLjU2LTEyLjUybDUuMjQtNjUuNTFjLjEzLS4zMS4yNS0uNjQuMjctLjk5bDQuMDEtNTAuMTNoMi42MWMxLjkgMCAzLjQ0LTEuNTQgMy40NC0zLjQ0Vjc2LjI0YzAtMS45LTEuNTQtMy40NC0zLjQ0LTMuNDR6bS0zLjQ0IDEwLjM0aC0xOS42MnYtMy40NmgxOS42MnpNNzYuNCA3OS42N2gxMDMuMTh2MTEuNjFINzYuNHptMTE4LjI5LTYuODhoLTguOTRsLTEuMTYtMTYuMzIgMy4xMy0xMC4zNGM1LjM5IDYuNTYgNi44NCAxOS4xOSA2Ljk4IDI2LjY3em0tNjQuMDgtMjkuMDdoNTAuNjRsLTMuNDQgMTEuMzZjLS4xMi40LS4xNy44Mi0uMTQgMS4yNGwxLjE3IDE2LjQ3SDc3LjExbC45NS0xMy4yN2g3MC41OWEzLjQ0IDMuNDQgMCAxIDAgMC02Ljg4SDc3LjQxbC0yLjctOC45Mmg1NS44OHptLTYyLjM0IDIuNCAzLjEzIDEwLjM1LTEuMTYgMTYuMzJoLTguOTVjLjE0LTcuNDggMS41OS0yMC4xMSA2Ljk4LTI2LjY3ek00OS45IDc5LjY3aDE5LjYydjMuNDZINDkuOXptMTQ2LjIxIDU4Ljk3Yy0uMTIuMzEtLjI0LjYxLS4yNy45NmwtNS4zMiA2Ni41Yy0uMjggMy40Ny0zLjIyIDYuMTktNi43IDYuMTloLTcuM2wxLjQzLTI3LjQ2Yy4xLTEuOS0xLjM2LTMuNTEtMy4yNi0zLjYxLTEuOTQtLjEyLTMuNTEgMS4zNi0zLjYxIDMuMjZsLTEuNDUgMjcuODJIODYuMzVsLTEuNDUtMjcuODJjLS4xLTEuOS0xLjc0LTMuMzgtMy42MS0zLjI2LTEuOS4xLTMuMzYgMS43Mi0zLjI2IDMuNjFsMS40MyAyNy40NmgtNy42OWMtMy40OCAwLTYuNDItMi43Mi02LjctNi4xOWwtNC44NS02MC42NmMuMDctLjMyLjE0LS42My4xMi0uOTdsLTQuMzYtNTQuNDVoMTMuNTR2NC43MWMwIDEuOSAxLjU0IDMuNDQgMy40NCAzLjQ0aDExMC4wNmMxLjkgMCAzLjQ0LTEuNTQgMy40NC0zLjQ0di00LjcxSDIwMGwtMy44OSA0OC42M3oiIGZpbGw9IiNmZWZkZmQiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiM3ODc4NzgiPjwvcGF0aD48cGF0aCBkPSJNMTU5LjIxIDU5LjUyaDQuNDJhMy40NCAzLjQ0IDAgMSAwIDAtNi44OGgtNC40MmEzLjQ0IDMuNDQgMCAxIDAgMCA2Ljg4ek0xNzQuNTMgMTE2LjAxSDgxLjQ4YTMuNDQgMy40NCAwIDAgMC0zLjQ0IDMuNDR2NDQuNzljMCAxLjkgMS41NCAzLjQ0IDMuNDQgMy40NGg5My4wNWMxLjkgMCAzLjQ0LTEuNTQgMy40NC0zLjQ0di00NC43OWMwLTEuOS0xLjU0LTMuNDQtMy40NC0zLjQ0em0tMy40NCA0NC43OUg4NC45MXYtMzcuOTFoODYuMTh6IiBmaWxsPSIjZmVmZGZkIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjNzg3ODc4Ij48L3BhdGg+PHBhdGggZD0iTTk2LjM2IDE1NC43NGMxLjkgMCAzLjQ0LTEuNTQgMy40NC0zLjQ0di0xLjkzaDUuNjV2MS45M2EzLjQ0IDMuNDQgMCAxIDAgNi44OCAwdi0uNjRoMzMuOTVjLjU5IDAgMS4xNy0uMTUgMS42OS0uNDRsOC43Ny00LjkzaDUuOThhMy40NCAzLjQ0IDAgMSAwIDAtNi44OGgtNS45OGwtOC43Ny00LjkzYy0uNTEtLjI5LTEuMDktLjQ0LTEuNjktLjQ0aC0zMy45NXYtLjY0YTMuNDQgMy40NCAwIDEgMC02Ljg4IDB2MS45M0g5OS44di0xLjkzYTMuNDQgMy40NCAwIDEgMC02Ljg4IDB2MTguOWMwIDEuOSAxLjU0IDMuNDQgMy40NCAzLjQ0em01Mi40NS0xMi44OS0zLjQzIDEuOTNoLTMzLjA1di0zLjg2aDMzLjA1em0tNDMuMzYtLjY0djEuMjhIOTkuOHYtMS4yOHoiIGZpbGw9IiNmZWZkZmQiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiM3ODc4NzgiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg==" class="w-6 h-6 md:w-7 md:h-7 object-contain" />
+                    </div>
+                    <span class="truncate">Sharps Waste</span>
+                </button>
+
+                <button onclick="loadContent('pharmaceutical')" id="btn-pharmaceutical" class="nav-btn flex-shrink-0 md:flex-shrink w-48 sm:w-56 md:w-full flex items-center gap-4 p-3 md:p-4 md:py-5 rounded-xl md:rounded-l-2xl md:rounded-r-none text-left text-base md:text-lg font-bold">
+                    <div class="icon-box w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
+                        <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <span class="truncate">Pharmaceutical</span>
+                </button>
+
+                <button onclick="loadContent('chemical')" id="btn-chemical" class="nav-btn flex-shrink-0 md:flex-shrink w-48 sm:w-56 md:w-full flex items-center gap-4 p-3 md:p-4 md:py-5 rounded-xl md:rounded-l-2xl md:rounded-r-none text-left text-base md:text-lg font-bold">
+                    <div class="icon-box w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Im0zNi4wMjcgMTYuODIxIDQuNDM3IDIuNzczQTkuMjM5IDkuMjM5IDAgMCAwIDQ1LjM2NiAyMWE0Ljk0NiA0Ljk0NiAwIDAgMCA0Ljg0OS0zLjk3NUw1MS45OCA4LjJhLjk4MS45ODEgMCAwIDAtLjExOS0uNjU1QTQuMDQ0IDQuMDQ0IDAgMCAwIDUzIDQuNzI2YTQuMSA0LjEgMCAwIDAtLjQzLTEuODI2QTMuNDI0IDMuNDI0IDAgMCAwIDQ5LjQ5IDFoLTEuMjU0QTIuMjM4IDIuMjM4IDAgMCAwIDQ2IDMuMjM2YS4yMzYuMjM2IDAgMCAxLS4xMzEuMjExbC0uMDQxLjAyMWEuOTkyLjk5MiAwIDAgMC0xLjI3NS0uMzYzbC0xLjMxMy42NTdhMjQuNzIzIDI0LjcyMyAwIDAgMC0zLjI2MyAxLjk2N0EzLjE2IDMuMTYgMCAwIDAgMzQgNy4xNjVhMTIuMjYzIDEyLjI2MyAwIDAgMCAuNjA4IDMuODA4IDQuMjkyIDQuMjkyIDAgMCAwIDEuNDE5IDUuODQ4Wk00OCAzLjIzNkEuMjM2LjIzNiAwIDAgMSA0OC4yMzYgM2gxLjI1NGExLjQzNiAxLjQzNiAwIDAgMSAxLjI5MS44IDIuMDk0IDIuMDk0IDAgMCAxIC4yMTkuOTI2IDIuMDYzIDIuMDYzIDAgMCAxLS42MDcgMS40NjdsLS42NTEuNjUxYTUuNDA5IDUuNDA5IDAgMCAxLTIuODQ0LTEuN0EyLjIxMyAyLjIxMyAwIDAgMCA0OCAzLjIzNlptLTMuODY1IDIuMzE1LjQzNC0uMjE4Yy4xMDguMTgzLjIzLjM1NS4zNTEuNTI3YTIwLjI3OSAyMC4yNzkgMCAwIDEtNS41MiA2LjM0bDEuMiAxLjZhMjIuMzMxIDIyLjMzMSAwIDAgMCA1Ljc2LTYuNDE5IDcuNDkgNy40OSAwIDAgMCAuOTE4LjYyNGwtLjA4Ni4yNThhMjUuOTU1IDI1Ljk1NSAwIDAgMS0zLjAyNCA2LjE4MmwxLjY2NCAxLjExQTI3Ljk2NCAyNy45NjQgMCAwIDAgNDkuMDg5IDguOWwuMDQ1LS4xMzVjLjIxOS4wNTYuNDM5LjEwOC42NjUuMTQ0bC0xLjU0NSA3LjcyN0EyLjk0NSAyLjk0NSAwIDAgMSA0NS4zNjYgMTlhNy4yNCA3LjI0IDAgMCAxLTMuODQyLTEuMWwtNC40MzYtMi43NzJhMi4zMTQgMi4zMTQgMCAwIDEtLjU4LTMuNDA5IDIyLjk5MyAyMi45OTMgMCAwIDEgNy42MjctNi4xNjhaTTM3LjE2NSA2YTEuMTYxIDEuMTYxIDAgMCAxIDEuMTUuOTc0bC4wMDguMDQyYTI1LjEzMyAyNS4xMzMgMCAwIDAtMi4xNDIgMi4wMzZBMTAuMjY4IDEwLjI2OCAwIDAgMSAzNiA3LjE2NSAxLjE2NiAxLjE2NiAwIDAgMSAzNy4xNjUgNlpNMjUuMDIzIDQ0LjU0NGMtLjAxLjE1MS0uMDIzLjMtLjAyMy40NTZhNyA3IDAgMCAwIDQuMTI2IDYuMzc1QTMuOTYgMy45NiAwIDAgMSAyNyA1MnYyYTUuOTgxIDUuOTgxIDAgMCAwIDQuNDgzLTIuMDI2Yy4xNzIuMDEyLjM0My4wMjYuNTE3LjAyNnMuMzQ1LS4wMTQuNTE3LS4wMjZBNS45ODEgNS45ODEgMCAwIDAgMzcgNTR2LTJhMy45NiAzLjk2IDAgMCAxLTIuMTI2LS42MjVBNyA3IDAgMCAwIDM5IDQ1YzAtLjE1NC0uMDEzLS4zLS4wMjMtLjQ1NkEzLjk4NSAzLjk4NSAwIDAgMSA0MSA0OGgyYTYuMDA1IDYuMDA1IDAgMCAwLTQuNi01LjgyOSA3LjAwOCA3LjAwOCAwIDAgMC0uNzE2LTEuMjQ1QTYuMDI2IDYuMDI2IDAgMCAwIDM4IDM5YTUuOTU3IDUuOTU3IDAgMCAwLTIuNC00LjhsLTEuMiAxLjZBMy45NjQgMy45NjQgMCAwIDEgMzYgMzljMCAuMDg0LS4wMTUuMTY2LS4wMi4yNDlhNi45NjYgNi45NjYgMCAwIDAtNy45NiAwYzAtLjA4My0uMDItLjE2NS0uMDItLjI0OWEzLjk2NCAzLjk2NCAwIDAgMSAxLjYtMy4ybC0xLjItMS42QTUuOTU3IDUuOTU3IDAgMCAwIDI2IDM5YTYuMDI2IDYuMDI2IDAgMCAwIC4zMTkgMS45MjYgNy4wMDggNy4wMDggMCAwIDAtLjcxNiAxLjI0NUE2LjAwNSA2LjAwNSAwIDAgMCAyMSA0OGgyYTMuOTg1IDMuOTg1IDAgMCAxIDIuMDIzLTMuNDU2Wk0yNyA0NWE0Ljk3OSA0Ljk3OSAwIDAgMSAuMS0uOTkxIDQgNCAwIDAgMSAxLjk0NC41NTlBMi45NDEgMi45NDEgMCAwIDAgMjkgNDVhMyAzIDAgMCAwIDEuOTgxIDIuODFjMCAuMDY0LjAxOS4xMjYuMDE5LjE5YTMuOTUzIDMuOTUzIDAgMCAxLS40MjkgMS43NjdBNC45OTEgNC45OTEgMCAwIDEgMjcgNDVabTUgMWExIDEgMCAxIDEgMS0xIDEgMSAwIDAgMS0xIDFabTEuNDI5IDMuNzY3QTMuOTUzIDMuOTUzIDAgMCAxIDMzIDQ4YzAtLjA2NC4wMTYtLjEyNi4wMTktLjE5QTMgMyAwIDAgMCAzNSA0NWEyLjkxNCAyLjkxNCAwIDAgMC0uMDQ0LS40MzEgNCA0IDAgMCAxIDEuOTQ0LS41NiA0Ljk2NiA0Ljk2NiAwIDAgMS0zLjQ3MSA1Ljc1OFpNMzIgNDBhNC45NiA0Ljk2IDAgMCAxIDMuMjkyIDEuMjY2IDMuOTg0IDMuOTg0IDAgMCAxLTEuNTI4IDEuMzIgMi45NDggMi45NDggMCAwIDAtMy41MjggMCAzLjk4NCAzLjk4NCAwIDAgMS0xLjUyOC0xLjMyQTQuOTYgNC45NiAwIDAgMSAzMiA0MFoiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiPjwvcGF0aD48cGF0aCBkPSJtMjAuNzA3IDguMjkzLTMtM2ExIDEgMCAwIDAtMS40MTQgMGwtNSA1YTEgMSAwIDAgMCAwIDEuNDE0bDMgM2ExIDEgMCAwIDAgMS40MTQgMGwuMjkzLS4yOTMgMi4wODYgMi4wODYtMi43OTMgMi43OTMgMS40MTQgMS40MTRMMTggMTkuNDE0IDIxLjU4NiAyM0gxNWExIDEgMCAwIDAtMSAxdjRhMSAxIDAgMCAwIDEgMWgxLjA4NGwuMzUzIDRIMTVhMyAzIDAgMCAwIDAgNmgxLjk2N0wxOSA2Mi4wODhBMSAxIDAgMCAwIDIwIDYzaDI0YTEgMSAwIDAgMCAxLS45MTJMNDcuMDMzIDM5SDQ5YTMgMyAwIDAgMCAwLTZoLTEuNDM3bC4zNTMtNEg0OWExIDEgMCAwIDAgMS0xdi00YTEgMSAwIDAgMC0xLTFIMzYuNDE0bC0xMS0xMSAxLjI5My0xLjI5My0xLjQxNC0xLjQxNC0yLjc5MyAyLjc5M0wyMC40MTQgMTBsLjI5My0uMjkzYTEgMSAwIDAgMCAwLTEuNDE0Wk0xMy40MTQgMTEgMTcgNy40MTQgMTguNTg2IDkgMTUgMTIuNTg2Wk0xNSAzN2ExIDEgMCAwIDEgMC0yaDEuNjE0bC4xNzYgMlptMzQtMmExIDEgMCAwIDEgMCAyaC0xLjc5bC4xNzYtMlptLTUuOTE2IDI2SDIwLjkxNmwtMi44MjQtMzJoMjcuODE2Wk00OCAyN0gxNnYtMmgzMlpNMjUuNTg2IDE1bC0yLjI5MyAyLjI5MyAxLjQxNCAxLjQxNEwyNyAxNi40MTQgMjguNTg2IDE4bC0yLjI5MyAyLjI5MyAxLjQxNCAxLjQxNEwzMCAxOS40MTQgMzMuNTg2IDIzaC05LjE3MmwtNS01TDI0IDEzLjQxNFptLTQuNS0xLjVMMTkuNSAxNS4wODYgMTcuNDE0IDEzIDE5IDExLjQxNFoiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiPjwvcGF0aD48L2c+PC9zdmc+" class="w-6 h-6 md:w-7 md:h-7 object-contain" />
+                    </div>
+                    <span class="truncate">Chemical</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Dynamic Content Area -->
+        <main class="flex-1 bg-[#FAFAFA] overflow-y-auto custom-scroll relative">
+            <div id="content-display" class="p-5 md:p-8 lg:p-10 max-w-5xl mx-auto h-full">
+                <!-- Content will be injected here via JS -->
+            </div>
         </main>
+
     </div>
 
     <script>
-        const zoneData = {
-            'contaminated': {
-                number: 1,
-                color: 'brand-dark',
-                title: 'The Contaminated Zone (Zone of Activity)',
-                content: '<p class="mb-2">This is the <strong>"centre" of risk</strong>. It is the immediate working area around the patient chair where splashes, splatter, and aerosols are most likely to land during treatment.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Occupants:</strong> This area is occupied by the patient, the clinician, and the dental assistant.</li><li><strong>The Boundary:</strong> Any surface within a <strong>2-metre radius</strong> of the patient’s mouth is generally considered part of this zone.</li><li><strong>Special Attention:</strong> Because this is the "Zone of Contamination," it requires meticulous cleaning and decontamination between every patient to break the Chain of Infection.</li></ul>'
+        // Data Object holding all the content
+        const wasteData = {
+            general: {
+                id: 'general',
+                title: 'General (Domestic) Waste',
+                badgeColor: 'bg-gray-500',
+                badgeText: 'Lowest Risk',
+                description: 'General waste is defined as waste that has no potential to cause infection. Because it carries the lowest risk, it is disposed of in the normal "domestic" waste stream. Proper segregation at the point of use is the only way to ensure that only appropriate items end up in this category.',
+                items: [
+                    {
+                        name: 'Extracted Teeth',
+                        desc: 'If teeth are thoroughly cleaned of all visible blood, saliva, and adherent soft tissue, they may be placed in general waste (check specific practice policy).',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMTI4IDEyOCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTExNS40NTggMTI3LjJIMTIuNTQyYTExLjUxMyAxMS41MTMgMCAwIDEtMTEuNS0xMS41VjY4LjgxOUE5Ljk3NiA5Ljk3NiAwIDAgMSA4LjIgNTkuMjc0IDI3LjAxNyAyNy4wMTcgMCAwIDEgMTcuMyA1OGMxMS43NDEuMzc2IDE3Ljc3NiA5Ljk3NCAxOS4zNzcgMTguMDc4IDQuMDUzIDIwLjUxOCA5LjMxIDMwLjQ5MiAxNi4wNzUgMzAuNDkyaC4wMDdjNC4wNDcgMCA1LjI2Ny0yLjI0NCA2LjU1OC00LjYxNiAxLTEuODMyIDIuMTM4LTMuODggNC42ODUtMy44NCAyLjU5Mi0uMDQ2IDMuNjg3IDIuMDA4IDQuNjg1IDMuODQgMS4yOTEgMi4zNzIgMi41MTEgNC42MTIgNi41NTggNC42MTZoLjAwN2M2Ljc2NSAwIDEyLjAyMi05Ljk3MyAxNi4wNzUtMzAuNDkyIDEuNi04LjEgNy42MzYtMTcuNyAxOS4zNzctMTguMDc4YTI2Ljk0OCAyNi45NDggMCAwIDEgOS4wOTQgMS4yNzMgOS45NzYgOS45NzYgMCAwIDEgNy4xNjIgOS41NDVWMTE1LjdhMTEuNTEzIDExLjUxMyAwIDAgMS0xMS41MDIgMTEuNVpNMTYuMzUgNjAuOTg1YTI0LjUgMjQuNSAwIDAgMC03LjMxNCAxLjE3MSA2Ljk2MiA2Ljk2MiAwIDAgMC00Ljk5NCA2LjY2M0EyNC4xNzMgMjQuMTczIDAgMCAwIDExMC44IDYxYy05Ljk4MS4zMi0xNS4xNDMgOC42MzctMTYuNTI5IDE1LjY2MS0yLjc5MSAxNC4xMjktNy44IDMyLjkwOS0xOS4wMTkgMzIuOTExaC0uMDA5Yy01LjgyOC0uMDA2LTcuODUyLTMuNzIyLTkuMTkxLTYuMTgxLS45NTYtMS43NTctMS4zNDUtMi4zLTEuOTkxLTIuMjc1aC0uMTE4Yy0uNjE3LS4wMTMtMS4wMzQuNTE4LTEuOTkxIDIuMjc1LTEuMzM5IDIuNDU5LTMuMzYzIDYuMTc1LTkuMTkxIDYuMTgxaC0uMDExYy0xMS4yMjEgMC0xNi4yMjgtMTguNzgxLTE5LjAxOS0zMi45MTFDMzIuMzQ1IDY5LjYzNiAyNy4xODMgNjEuMzE5IDE3LjIgNjFjLS4yOS0uMDEtLjU3My0uMDE1LS44NS0uMDE1WiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMDMuOTM2IDFhMS41MjMgMS41MjMgMCAwIDAtMS41OTQgMS40Yy0uMDI1LjM3Ny0yLjQ2NiAzNy44MzQtMy44MiA0NC4yMWEzMC45MzMgMzAuOTMzIDAgMCAxLTQuNjMyIDExLjE2Yy0zLjgyMSA1LjU2MS03LjkxOCA5LjMtMTEuODUgMTAuODIybC0uOTI4LjM1OWExLjAyNiAxLjAyNiAwIDAgMS0uOTY2LS4xMTUgMS4wMTQgMS4wMTQgMCAwIDEtLjQ0My0uODUgMS4wMzIgMS4wMzIgMCAwIDEgLjYtLjkxNSAyMi40OTMgMjIuNDkzIDAgMCAwIDkuNjQtOC41ODMgMzAuMDU1IDMwLjA1NSAwIDAgMCA0Ljc1LTE0LjQ5NGMuNjE4LTEwLjM1IDEuNjIxLTQxLjQ0IDEuNjIxLTQxLjQ0YTEuNSAxLjUgMCAxIDAtMy0uMTE3cy0uOTQxIDI5LjI0OC0xLjU2MiA0MC40MTVhMTcuMDQzIDE3LjA0MyAwIDAgMC0xLjgzNS00LjYzMWMtNC40LTcuNTUyLTE0LjYzMy04LjMzNi0yMS45OC00LjcyOGE4LjkxNiA4LjkxNiAwIDAgMS03Ljg3NSAwYy03LjM0OS0zLjYwOC0xNy41NzgtMi44MjUtMjEuOTgxIDQuNzI4YTE3LjAzMSAxNy4wMzEgMCAwIDAtMS44MzUgNC42MjljLS42MjMtMTEuMjMxLTEuNTYyLTQwLjQxMy0xLjU2Mi00MC40MTNhMS41IDEuNSAwIDEgMC0zIC4xMTdzMSAzMS4xMzYgMS42MjUgNDEuNWEyOS45OTMgMjkuOTkzIDAgMCAwIDQuNzQ2IDE0LjQzMyAyMi40OTMgMjIuNDkzIDAgMCAwIDkuNjQgOC41ODMgMS4wMzIgMS4wMzIgMCAwIDEgLjYuOTE1IDEuMDE0IDEuMDE0IDAgMCAxLS40NDMuODUgMS4wMjYgMS4wMjYgMCAwIDEtLjk2NS4xMTVsLS45MjktLjM1OWMtMy45MzItMS41MTktOC4wMjktNS4yNjEtMTEuODUtMTAuODIyYTMwLjkxNiAzMC45MTYgMCAwIDEtNC42MzItMTEuMTYyYy0xLjM1NC02LjM3Ni0zLjgtNDMuODMzLTMuODItNDQuMjFBMS41MjQgMS41MjQgMCAwIDAgMjQuMDY0IDFhMS41IDEuNSAwIDAgMC0xLjQgMS41OTRjLjEgMS41NTEgMi40ODEgMzguMDUzIDMuODggNDQuNjM5YTMzLjg4MiAzMy44ODIgMCAwIDAgNS4wOTQgMTIuMjM3YzMuNTU2IDUuMTc4IDcuMjc4IDguODIgMTEuMDg5IDEwLjkuMjA3LjM4My40MTEuNzc4LjYyIDEuMTQ5IDEuOTc5IDMuNTE5IDIuOTQgOC4yMzMgMy43ODggMTIuMzkyIDEuMjY1IDYuMjE0IDIuNTcyIDEyLjYyNSA3LjU5MiAxMi42MjRhNi43NjMgNi43NjMgMCAwIDAgMS4xMi0uMWMzLjgtLjY0MiA0LjQ3Ny03LjA2OSA1LjI1Ny0xNC41MTEuNDA3LTMuODkxIDEuMjU0LTExLjk4NyAyLjktMTEuOTg3czIuNDg5IDguMSAyLjkgMTEuOTg3Yy43NzkgNy40NDIgMS40NTIgMTMuODY5IDUuMjU1IDE0LjUxMSA1Ljk2NSAxIDcuMzU4LTUuODc0IDguNzEzLTEyLjUyNi44NDgtNC4xNTkgMS44MDktOC44NzMgMy43ODgtMTIuMzkyLjIxLS4zNzMuNDE2LS43NjcuNjI1LTEuMTUxIDMuODA4LTIuMDggNy41MjktNS43MjEgMTEuMDg0LTEwLjlhMzMuODgyIDMzLjg4MiAwIDAgMCA1LjA5NC0xMi4yMzdjMS40LTYuNTg2IDMuNzc5LTQzLjA4OCAzLjg4LTQ0LjYzOUExLjUgMS41IDAgMCAwIDEwMy45MzYgMVptLTI2LjAxIDgyLjMxYy0xLjQ4MSA3LjI2My0yLjQ3NSAxMC42MzktNS4yNzUgMTAuMTY2LTEuNTU2LS4yNjMtMi4zNDUtNy44MS0yLjc3LTExLjg2NS0uODIzLTcuODc1LTEuNTM1LTE0LjY3NS01Ljg4LTE0LjY3NXMtNS4wNTcgNi44LTUuODgxIDE0LjY3NWMtLjQyNSA0LjA1NS0xLjIxNSAxMS42LTIuNzcyIDExLjg2NS0yLjc4OS40NjYtMy43OTMtMi45LTUuMjc0LTEwLjE2NmE1Ni4yNjQgNTYuMjY0IDAgMCAwLTMuMTU4LTExLjMyMWMuMTE2LjAxLjIzMi4wMzIuMzQ4LjAzMmE0LjAzOCA0LjAzOCAwIDAgMCAzLjY3MS01LjcyMSA0LjE2MiA0LjE2MiAwIDAgMC0yLjA0OC0xLjk4OCAxOS43NTYgMTkuNzU2IDAgMCAxLTQuNTI4LTMuNTkyIDE4LjQ3MiAxOC40NzIgMCAwIDEtNS41MTctMTUuNTM0IDE0Ljc1NSAxNC43NTUgMCAwIDEgMS44MzItNS40NTZjMi4xNDUtMy42ODEgNi4yNDctNS4yODggMTAuNDc5LTUuMjg4YTE3LjQ3MyAxNy40NzMgMCAwIDEgNy41MjcgMS43MTNjLjAxOS4wMDkuMTkxLjA5Mi4yNDcuMTIxYTkuNCA5LjQgMCAwIDEgMi43MTUgMi4wOTMgNi4xODEgNi4xODEgMCAwIDAgNC4xOTEgMi4yODFjLjA1IDAgLjEuMDA4LjE0OC4wMDhhMS41IDEuNSAwIDAgMCAuMTQ1LTIuOTkzIDIuNjgzIDIuNjgzIDAgMCAxLTEuMTA1LS4zMjYgMTEuOSAxMS45IDAgMCAwIDQuMjQyLTEuMTU2YzUuOTgyLTIuOTM3IDE0LjU4OC0yLjQxNSAxOC4wNjMgMy41NDdhMTQuNzU2IDE0Ljc1NiAwIDAgMSAxLjgzMyA1LjQ3IDE4LjM4MyAxOC4zODMgMCAwIDEtNS40IDE1LjQwNSAxOS43MyAxOS43MyAwIDAgMS00LjczMyAzLjc1MSA0LjAyMiA0LjAyMiAwIDAgMCAxLjcwOCA3LjY2NmMuMTE2IDAgLjIzMi0uMDIyLjM0OC0uMDMyYTU2LjI2NCA1Ni4yNjQgMCAwIDAtMy4xNTYgMTEuMzJaIiBmaWxsPSIjNTMyYThjIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIj48L3BhdGg+PC9nPjwvc3ZnPg==" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Polymer Cartridges',
+                        desc: 'Empty plastic local anaesthetic cartridges can be disposed of in regular waste once completely emptied (unlike glass).',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTUwNy42MDggNC4zOTFjLTUuODU0LTUuODU1LTE1LjM0Ny01Ljg1NS0yMS4yMDEgMGwtNTEuMzQgNTEuMzRjLTkuMTMzLTUuNDA2LTE5LjU3Ny04LjI5Ny0zMC40NjktOC4yOTctMTYuMDE3IDAtMzEuMDc3IDYuMjM4LTQyLjQwMyAxNy41NjRMMjM0Ljk1OCAxOTIuMjM2Yy0yLjE5NS0xNS41MzUtOS4yNDktMzAuNTA5LTIxLjE3Mi00Mi40MzMtMjkuMjI2LTI5LjIyNS03Ni43ODEtMjkuMjI1LTEwNi4wMDggMC0yOS4yMjYgMjkuMjI3LTI5LjIyNiA3Ni43ODEgMCAxMDYuMDA4IDExLjkyMyAxMS45MjMgMjYuODk3IDE4Ljk3OSA0Mi40MzMgMjEuMTczbC0yMS4yMyAyMS4yMy0xMC42MDEtMTAuNjAxYy01Ljg1NC01Ljg1NS0xNS4zNDYtNS44NTUtMjEuMjAxIDBzLTUuODU1IDE1LjM0NyAwIDIxLjIwMWw0Mi40MDQgNDIuNDA0LTIzLjI1OSAyMy4yNTljLTI4LjgwMi0xOS4xMjUtNjguNDU4LTE2LjM0OC05NC4zNDkgOS41NDMtMjkuMjk1IDI5LjI5NC0yOS4yOTkgNzYuNzEgMCAxMDYuMDA4IDI5LjI5MyAyOS4yOTQgNzYuNzEgMjkuMjk5IDEwNi4wMDcgMCAyNS44OTgtMjUuODk3IDI4LjY2MS02NS41NTUgOS41NDMtOTQuMzQ5bDIzLjI1OS0yMy4yNTkgNDIuNDA0IDQyLjQwNGMyLjkyNyAyLjkyNyA2Ljc2NCA0LjM5MiAxMC42IDQuMzkyczcuNjc0LTEuNDYzIDEwLjYtNC4zOTJjNS44NTUtNS44NTUgNS44NTUtMTUuMzQ3IDAtMjEuMjAxbC0xMC42MDEtMTAuNjAxIDIxLjIzLTIxLjIzYzIuMTk1IDE1LjUzNCA5LjI0OSAzMC41MDkgMjEuMTcyIDQyLjQzMyAxNC42MTMgMTQuNjEzIDMzLjgwOCAyMS45MTkgNTMuMDA0IDIxLjkxOXMzOC4zOTEtNy4zMDYgNTMuMDA0LTIxLjkxOWMyOS4yMjYtMjkuMjI3IDI5LjIyNi03Ni43ODEgMC0xMDYuMDA4LTExLjkyMy0xMS45MjItMjYuODk3LTE4Ljk3OC00Mi40MzMtMjEuMTcybDk1LjQzMS05NS40MzEuMDA1LS4wMDUuMDA1LS4wMDUgMzEuNzk3LTMxLjc5N2MxOS43MjEtMTkuNzIyIDIyLjgwNy00OS44NzcgOS4yNTktNzIuODYzbDUxLjM0OC01MS4zNDhjNS44NTQtNS44NTggNS44NTQtMTUuMzUtLjAwMS0yMS4yMDV6bS00MDAuODMgNDY0LjQzNGMtMTcuNTc2IDE3LjU3Ni00Ni4wMjYgMTcuNTc5LTYzLjYwNSAwLTE3LjU3Ni0xNy41NzYtMTcuNTc5LTQ2LjAyNiAwLTYzLjYwNSAxNy41NzYtMTcuNTc2IDQ2LjAyNi0xNy41NzkgNjMuNjA1IDAgOC40OTUgOC40OTQgMTMuMTczIDE5Ljc4OCAxMy4xNzMgMzEuODAycy00LjY3OCAyMy4zMDktMTMuMTczIDMxLjgwM3ptMjIuMjAxLTIzNC4yMTZjLTE3LjUzNS0xNy41MzYtMTcuNTM1LTQ2LjA2OSAwLTYzLjYwNSAxNy41MzUtMTcuNTM1IDQ2LjA2OS0xNy41MzYgNjMuNjA1IDAgMTcuNTM1IDE3LjUzNiAxNy41MzUgNDYuMDY5IDAgNjMuNjA1LTE3LjUzNyAxNy41MzYtNDYuMDcgMTcuNTM1LTYzLjYwNSAwem02My42MDUgMTI3LjIwOS00Mi40MDMtNDIuNDAzIDMxLjgwMi0zMS44MDIgNDIuNDA0IDQyLjQwNC0zMS44MDMgMzEuODAxem01NC4wNy01MS45MzYtNDQuNTM2LTQ0LjUzNmE3NC45OTYgNzQuOTk2IDAgMCAwIDExLjY2OC05LjUzNSA3NS4wNTMgNzUuMDUzIDAgMCAwIDkuNTM1LTExLjY2OGw0NC41MzYgNDQuNTM3YTc0Ljk0NiA3NC45NDYgMCAwIDAtMTEuNjY5IDkuNTM1IDc0Ljg3OCA3NC44NzggMCAwIDAtOS41MzQgMTEuNjY3em05NC4zNDEgOS41MzNjMTcuNTM1IDE3LjUzNyAxNy41MzUgNDYuMDcgMCA2My42MDUtMTcuNTM1IDE3LjUzNS00Ni4wNzEgMTcuNTM1LTYzLjYwNiAwLTE3LjUzNS0xNy41MzYtMTcuNTM1LTQ2LjA2OSAwLTYzLjYwNSAxNy41MzYtMTcuNTM3IDQ2LjA2OS0xNy41MzcgNjMuNjA2IDB6bS01My4wMDQtNTMuMDAzLTQyLjQwNC00Mi40MDQgOTUuNDA3LTk1LjQwNyA0Mi40MDQgNDIuNDA0LTk1LjQwNyA5NS40MDd6bTEzNy44MS0xMzcuODFMNDA0LjYgMTQ5LjgwM2wtNDIuNDA0LTQyLjQwNCAyMS4yMDEtMjEuMjAxYzUuNjYzLTUuNjYzIDEzLjE5My04Ljc4MiAyMS4yMDEtOC43ODIgOC4wMSAwIDE1LjUzOSAzLjExOSAyMS4yMDIgOC43ODIgMTEuNjkxIDExLjY5MiAxMS42OTEgMzAuNzEzLjAwMSA0Mi40MDR6IiBmaWxsPSIjNTMyYThjIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iIj48L3BhdGg+PC9nPjwvc3ZnPi" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Denture Waste',
+                        desc: 'Items such as plaster models, wax patterns, or acrylic trimmings that have not entered the patient\'s mouth.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik01Ny4xODIgMTEuMTg1QTM2LjE0NyAzNi4xNDcgMCAwIDAgNDQuNzg2IDloLTEuOTU1Yy0zLjc5NyAwLTcuNTI4Ljk4MS0xMC44MzEgMi44NDNBMjIuMDU4IDIyLjA1OCAwIDAgMCAyMS4xNjkgOWgtMS45NTVjLTQuMjQxIDAtOC40MTIuNzM1LTEyLjM5NiAyLjE4NUE4Ljg2MiA4Ljg2MiAwIDAgMCAxIDE5LjQ5YTguNzkgOC43OSAwIDAgMCAuNjMyIDMuMjgybC40MzcgMS4wOTJhMi4zOCAyLjM4IDAgMCAwLS4wNjkuNTVjMCAxLjE0Ni4xNiAyLjI4NS40NzQgMy4zODVsMS4wMzIgMy42MTNBMy41NzIgMy41NzIgMCAwIDAgNS40NyAzMy42NyAxMS4xOSAxMS4xOSAwIDAgMCA0IDM5LjE5NnYxLjQxOWE3Ljc2MSA3Ljc2MSAwIDAgMC0yIDUuMjEyIDguNjQxIDguNjQxIDAgMCAwIDYuODA4IDguNDg3YzIuMDQ1LjQ1NiA0LjE0NS42ODYgNi4yNC42ODZoNy4yOTVjMy41OTEgMCA2Ljk4NC0xLjI4MiA5LjY1Ny0zLjYzQTE0LjU0NiAxNC41NDYgMCAwIDAgNDEuNjU3IDU1aDcuMjk1YzIuMDk1IDAgNC4xOTUtLjIzIDYuMjQtLjY4NUE4LjY0IDguNjQgMCAwIDAgNjIgNDUuODI4YTcuNzYxIDcuNzYxIDAgMCAwLTItNS4yMTJ2LTEuNDE5YTExLjE5IDExLjE5IDAgMCAwLTEuNDctNS41MjYgMy41NzIgMy41NzIgMCAwIDAgMS45NjQtMi4yNThsMS4wMzItMy42MTJBMTIuMzUgMTIuMzUgMCAwIDAgNjIgMjQuNDE0YzAtLjE5LS4wMjctLjM3Mi0uMDY5LS41NWwuNDM3LTEuMDkyQTguNzg2IDguNzg2IDAgMCAwIDYzIDE5LjQ5YTguODYyIDguODYyIDAgMCAwLTUuODE4LTguMzA1ek00LjM5NyAyNy4yNDlBMTAuMzI0IDEwLjMyNCAwIDAgMSA0IDI0LjQxNGMwLS4zMzguNDY5LS41MzIuNzA3LS4yOTNMNyAyNi40MTR2MS41MzZjMCAuODAzLjEyOSAxLjU5OC4zODMgMi4zNjIuMTUxLjQ1NC4zODYuODU5LjY3NCAxLjIxN2wtLjAxMi4wMTJjLS4yOTYuMjk2LS42OS40NTktMS4xMDguNDU5YTEuNTc0IDEuNTc0IDAgMCAxLTEuNTA3LTEuMTM3em01MS45MjMgNi42N2E5LjE0NiA5LjE0NiAwIDAgMSAxLjY3OSA1LjA4bC0xLjA3MS0uODAzYTE0LjY1NSAxNC42NTUgMCAwIDAtMS4xMzUtNC40MzdjLjE3LjA2NS4zNDYuMTIxLjUyNy4xNnpNNDYgMzQuNTUyVjMyaDEuMzgyYy40OCAwIC45NTMtLjExNiAxLjM5Ni0uMzAyQTkuMTcyIDkuMTcyIDAgMCAxIDUwIDM2LjI0M3YyLjYzNmExLjEyMyAxLjEyMyAwIDAgMS0xLjkxNS43OTMgMTQuODU3IDE0Ljg1NyAwIDAgMS0yLjIxNy0yLjgzOGMuMDg0LS43NTguMTMyLTEuNTIuMTMyLTIuMjgyem01LjQyOS0xLjg0M2MuNDYyLjE4NS45NTMuMjkxIDEuNDU4LjI5MS4wODggMCAuMTczLS4wMTUuMjYtLjAyMUExMi43MTIgMTIuNzEyIDAgMCAxIDU1IDM5LjU4NmMwIC4zMzctLjQ2OS41MzItLjcwOC4yOTNMNTIgMzcuNTg2di0xLjM0M2MwLTEuMjE1LS4xOTctMi40MDQtLjU3MS0zLjUzNHpNNTUgMjcuOTVjMCAuNTg4LS4wOTUgMS4xNy0uMjgxIDEuNzI5YTEuOTI4IDEuOTI4IDAgMCAxLTIuOTAzLjk5NmwtMS4xNTQtLjc2OWMuMjE3LS40NjguMzM4LS45ODQuMzM4LTEuNTI0IDAtMS4wNjUtLjEwNC0yLjExNi0uMjgzLTMuMTU0bDIuNTM1LTMuODAzYS45NTUuOTU1IDAgMCAxIDEuNzQ4LjUyOXptLTYgLjQzMkExLjYxOSAxLjYxOSAwIDAgMSA0Ny4zODIgMzBoLTIuNzY0Yy0uMjUgMC0uNS0uMDU5LS43MjQtLjE3MUExLjYwOSAxLjYwOSAwIDAgMSA0MyAyOC4zODJjMC0yLjExNi4zOTgtNC4xODYgMS4xODYtNi4xNTNDNDQuNDg0IDIxLjQ4MiA0NS4xOTYgMjEgNDYgMjFzMS41MTYuNDgyIDEuODE1IDEuMjMxQTE2LjQ3MiAxNi40NzIgMCAwIDEgNDkgMjguMzgyem0tNiAzLjIzNmEzLjYzIDMuNjMgMCAwIDAgMSAuMzF2Mi42MjRjMCAxLjU0My0uMTkgMy4wODQtLjU2NCA0LjU4MWExLjE0MyAxLjE0MyAwIDAgMS0xLjExMS44NjdjLS40MzYgMC0uODI5LS4yNDItMS4wMjMtLjYzM2EyMi40ODIgMjIuNDgyIDAgMCAxLTEuODI0LTUuMTI5bC4xOS0xLjUxNmExMy4zMjggMTMuMzI4IDAgMCAwIDEuNTQ4LS40MDJjLjU0Ny0uMTgyIDEtLjUzNSAxLjMxNC0uOTg1LjE0OC4xMDQuMzA0LjIuNDcuMjgzem0tMTYuNjIxIDEuMzU0YTEzLjQ1IDEzLjQ1IDAgMCAwIDQuMzA0LS40OTlsLS41ODQtNC42NzNjLS4wNDcuMzcyLS4xNTUuNzMtLjMyMyAxLjA2NS0uMjQzLjQ4Ni0uNzMyLjc4OS0xLjI3Ni43ODlzLTEuMDMzLS4zMDMtMS4yNzYtLjc4OWEzLjMxMSAzLjMxMSAwIDAgMS0uMzIzLTEuMDY1em0xMC43MiA0LjE3NGMtLjA0Ny4zNzItLjE1NS43My0uMzIzIDEuMDY1LS4yNDMuNDg2LS43MzIuNzg5LTEuMjc2Ljc4OXMtMS4wMzMtLjMwMy0xLjI3Ni0uNzg5YTMuMzAyIDMuMzAyIDAgMCAxLS4zMjMtMS4wNjVsLS41ODQtNC42NzNjMS4xOTQuMzQzIDIuNDI4LjUyNyAzLjY4My41MjcuMjA4IDAgLjQxNC0uMDE1LjYyLS4wMjV6TTQxIDI5Ljg0YS42MS42MSAwIDAgMS0uNDE3LjU4MiAxMS40MjEgMTEuNDIxIDAgMCAxLTcuMTY3LS4wMDEuNjEuNjEgMCAwIDEtLjQxNi0uNTgxdi0zLjQ1YzAtMS40NjIuMjc1LTIuODg0LjgyMi00LjIzOC4yNDQtLjYyOS42OC0xLjE3IDEuMjUyLTEuNTZhMy40OTEgMy40OTEgMCAwIDEgMy44NDMtLjAwNSAzLjM3NCAzLjM3NCAwIDAgMSAxLjI2NSAxLjU3OGMuNTQzIDEuMzQxLjgxOCAyLjc2My44MTggNC4yMjV6bS0xMCAwYS42MS42MSAwIDAgMS0uNDE3LjU4MiAxMS40MjEgMTEuNDIxIDAgMCAxLTcuMTY3LS4wMDEuNjEuNjEgMCAwIDEtLjQxNi0uNTgxdi0zLjQ1YzAtMS40NjIuMjc1LTIuODg0LjgyMi00LjIzOC4yNDQtLjYyOS42OC0xLjE3IDEuMjUyLTEuNTZhMy40OTEgMy40OTEgMCAwIDEgMy44NDMtLjAwNSAzLjM3NCAzLjM3NCAwIDAgMSAxLjI2NSAxLjU3OGMuNTQzIDEuMzQxLjgxOCAyLjc2My44MTggNC4yMjV6bS04LjIxNiAyLjQ3OGExMi45NSAxMi45NSAwIDAgMCAxLjU0OS40MDFsLjE5IDEuNTE4YTIyLjUxMyAyMi41MTMgMCAwIDEtMS44MjQgNS4xMyAxLjE0IDEuMTQgMCAwIDEtMS4wMjUuNjMzYy0uNTI2IDAtLjk4My0uMzU2LTEuMTEtLjg2OGExOC44OSAxOC44OSAwIDAgMS0uNTY0LTQuNTh2LTIuNjI0Yy4zNDYtLjA2LjY4Ni0uMTUzIDEtLjMxLjE2Ni0uMDgzLjMyMi0uMTc5LjQ3MS0uMjg0LjMxMy40NTEuNzY2LjgwMyAxLjMxMy45ODR6bS0xMy4wNzYgNy41NmMtLjI0LjI0MS0uNzA4LjA0NS0uNzA4LS4yOTIgMC0yLjM0NC42NDQtNC42MTMgMS44NTMtNi42MDcuMDg3LjAwNi4xNzIuMDIxLjI2LjAyMS41MDUgMCAuOTk3LS4xMDYgMS40NTktLjI5MUExMS4yMDQgMTEuMjA0IDAgMCAwIDEyIDM2LjI0M3YxLjM0M3ptLTIuNjM1LTEuNjgyLTEuMDcxLjgwM2E5LjEzNSA5LjEzNSAwIDAgMSAxLjY3OC01LjA4Yy4xODEtLjAzOC4zNTYtLjA5NC41MjgtLjE2YTE0LjY1NSAxNC42NTUgMCAwIDAtMS4xMzUgNC40Mzd6TTE0IDM2LjI0M2MwLTEuNjEyLjQzNS0zLjE1OSAxLjIyMi00LjU0NS40NDMuMTg2LjkxNi4zMDIgMS4zOTYuMzAySDE4djIuNTUyYzAgLjc2My4wNDggMS41MjUuMTMyIDIuMjgyYTE0Ljg1IDE0Ljg1IDAgMCAxLTIuMjE3IDIuODM3QTEuMTIzIDEuMTIzIDAgMCAxIDE0IDM4Ljg3OXptNi4xMDYtNi40MTRjLS4wMDEgMC0uMDAxIDAgMCAwYTEuNjI2IDEuNjI2IDAgMCAxLS43MjQuMTcxaC0yLjc2NGMtLjI1IDAtLjUtLjA1OS0uNzI0LS4xNzFBMS42MDkgMS42MDkgMCAwIDEgMTUgMjguMzgyYzAtMi4xMTYuMzk4LTQuMTg2IDEuMTg2LTYuMTUzQzE2LjQ4NCAyMS40ODIgMTcuMTk2IDIxIDE4IDIxczEuNTE2LjQ4MiAxLjgxNSAxLjIzMUExNi40NzIgMTYuNDcyIDAgMCAxIDIxIDI4LjM4MmMwIC42MTctLjM0MyAxLjE3Mi0uODk0IDEuNDQ3em0tNi43NjkuMDc3LTEuMTU0Ljc3YTEuOTI4IDEuOTI4IDAgMCAxLTIuOTAyLS45OTVBNS40OSA1LjQ5IDAgMCAxIDkgMjcuOTV2LTUuOTk2YS45NTUuOTU1IDAgMCAxIDEuNzQ4LS41MjlsMi41MzQgMy44MDJBMTguNjQ2IDE4LjY0NiAwIDAgMCAxMyAyOC4zODJjMCAuNTQuMTIxIDEuMDU2LjMzNyAxLjUyNHptNDEuNDIyIDIyLjQ1NmEyNi44MjMgMjYuODIzIDAgMCAxLTUuODA3LjYzOGgtNy4yOTVjLTMuMzgxIDAtNi41Ni0xLjMxNi04Ljk1LTMuNzA3YTEuMDMgMS4wMyAwIDAgMC0xLjQxNCAwQTEyLjU3IDEyLjU3IDAgMCAxIDIyLjM0MyA1M2gtNy4yOTVjLTEuOTQ5IDAtMy45MDMtLjIxNS01LjgwNy0uNjM4QTYuNjUyIDYuNjUyIDAgMCAxIDQgNDUuODI4YzAtMS41MzkuNTk1LTIuOTg2IDEuNjcxLTQuMDgybDEuNTUxLTEuMTYzQTIuNDEzIDIuNDEzIDAgMCAwIDkuNDE0IDQyYy42MzUgMCAxLjI1Ny0uMjU4IDEuNzA3LS43MDdsMS4xNTEtMS4xNTFBMy4xMjQgMy4xMjQgMCAwIDAgMTUuMTIyIDQyYy44MzMgMCAxLjYxNy0uMzI0IDIuMjA4LS45MTQuNDYxLS40NjIuODkxLS45NTQgMS4yOTUtMS40NjZhMy4xNCAzLjE0IDAgMCAwIDMuMDUgMi4zOCAzLjEyOCAzLjEyOCAwIDAgMCAyLjgxMy0xLjczOGMuMjcyLS41NDMuNTE2LTEuMDk5Ljc0Ni0xLjY2MS4wNjQuMTY5LjExOS4zNDIuMjAxLjUwNUMyNi4wMTkgNDAuMjc0IDI3LjE5MyA0MSAyOC41IDQxczIuNDgxLS43MjYgMy4wNjUtMS44OTVBNS4yNyA1LjI3IDAgMCAwIDMyIDM3Ljc4N2MuMDkyLjQ1NS4yMjYuODk5LjQzNSAxLjMxOEEzLjQwNyAzLjQwNyAwIDAgMCAzNS41IDQxYzEuMzA2IDAgMi40OC0uNzI2IDMuMDY0LTEuODk0LjA4Mi0uMTYzLjEzOC0uMzM2LjIwMi0uNTA2LjIzLjU2Mi40NzUgMS4xMTguNzQ3IDEuNjYxQTMuMTI1IDMuMTI1IDAgMCAwIDQyLjMyNSA0MmEzLjE0IDMuMTQgMCAwIDAgMy4wNS0yLjM4Yy40MDUuNTEyLjgzNCAxLjAwNCAxLjI5NiAxLjQ2Ni41OS41OSAxLjM3My45MTQgMi4yMDcuOTE0YTMuMTIzIDMuMTIzIDAgMCAwIDIuODQ5LTEuODU4bDEuMTUyIDEuMTUyYy40NS40NDggMS4wNzIuNzA2IDEuNzA2LjcwNi45NzUgMCAxLjgxMS0uNTgzIDIuMTkzLTEuNDE2bDEuNTUxIDEuMTYzQTUuNzg5IDUuNzg5IDAgMCAxIDYwIDQ1LjgyOGE2LjY1MiA2LjY1MiAwIDAgMS01LjI0MSA2LjUzNHptNC44NDQtMjUuMTEyLTEuMDMyIDMuNjEzQTEuNTc2IDEuNTc2IDAgMCAxIDU3LjA2MyAzMmMtLjQxOCAwLS44MTItLjE2My0xLjEwOC0uNDU5bC0uMDEyLS4wMTJjLjI4OC0uMzU3LjUyMi0uNzYzLjY3NC0xLjIxN0E3LjQ3NSA3LjQ3NSAwIDAgMCA1NyAyNy45NXYtMS41MzZsMi4yOTItMi4yOTJjLjI0MS0uMjQyLjcwOC0uMDQ2LjcwOC4yOTIgMCAuOTYtLjEzNCAxLjkxNC0uMzk3IDIuODM2em0uOTA4LTUuMjItLjA1NS4xMzhhMi40MDEgMi40MDEgMCAwIDAtLjg3LS4xNjhjLS42MzUgMC0xLjI1Ny4yNTgtMS43MDcuNzA3bC0uODc5Ljg3OXYtMS42MzJBMi45NTcgMi45NTcgMCAwIDAgNTQuMDQ2IDE5Yy0uOTkxIDAtMS45MS40OTItMi40NTggMS4zMTVsLTEuNTI4IDIuMjkzYy0uMTIzLS4zNzUtLjI0MS0uNzUyLS4zODgtMS4xMjJDNDkuMDY3IDE5Ljk3NiA0Ny42MjYgMTkgNDYgMTlzLTMuMDY3Ljk3Ni0zLjY3MyAyLjQ4OWMtLjA1LjEyNS0uMDg0LjI1NC0uMTMxLjM4LS4wNTMtLjE0Ni0uMDk1LS4yOTYtLjE1NC0uNDRhNS4zNjggNS4zNjggMCAwIDAtMi4wMDgtMi41MDEgNS41MDMgNS41MDMgMCAwIDAtNi4wNzcuMDA1IDUuMzY1IDUuMzY1IDAgMCAwLTEuOTU4IDIuMzkxIDUuMzgxIDUuMzgxIDAgMCAwLTEuOTY2LTIuMzk2IDUuNTAzIDUuNTAzIDAgMCAwLTYuMDc3LjAwNSA1LjM2MiA1LjM2MiAwIDAgMC0xLjk5NSAyLjQ4MmMtLjA2LjE0OS0uMTA0LjMwNC0uMTU5LjQ1NS0uMDQ4LS4xMjctLjA4Mi0uMjU3LS4xMzMtLjM4M0MyMS4wNjcgMTkuOTc2IDE5LjYyNiAxOSAxOCAxOXMtMy4wNjcuOTc2LTMuNjczIDIuNDg5Yy0uMTQ3LjM2OC0uMjY0Ljc0NC0uMzg3IDEuMTE4bC0xLjUyOC0yLjI5MkEyLjk0NyAyLjk0NyAwIDAgMCA5Ljk1NCAxOSAyLjk1NyAyLjk1NyAwIDAgMCA3IDIxLjk1NHYxLjYzMmwtLjg3OS0uODhBMi40MzggMi40MzggMCAwIDAgNC40MTQgMjJjLS4zMDcgMC0uNTk5LjA2My0uODcuMTY4bC0uMDU1LS4xMzhBNi44MTkgNi44MTkgMCAwIDEgMyAxOS40OWE2Ljg2IDYuODYgMCAwIDEgNC41MDEtNi40MjdBMzQuMTg1IDM0LjE4NSAwIDAgMSAxOS4yMTQgMTFoMS45NTVjMy42MzMgMCA3LjIwMS45ODggMTAuMzE2IDIuODU3LjMxNy4xODkuNzEyLjE4OSAxLjAyOSAwQTIwLjA2MyAyMC4wNjMgMCAwIDEgNDIuODMxIDExaDEuOTU1YzQuMDA3IDAgNy45NDguNjk0IDExLjcxMyAyLjA2M0E2Ljg2IDYuODYgMCAwIDEgNjEgMTkuNDljMCAuODc0LS4xNjUgMS43MjktLjQ4OSAyLjU0eiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCI+PC9wYXRoPjwvZz48L3N2Zz4=" class="w-full h-full object-contain" />'
+                    }
+                ]
             },
-            'contact': {
-                number: 2,
-                color: 'brand-muted',
-                title: 'Clinical Contact Surfaces',
-                content: '<p class="mb-2">These are surfaces that sit outside the immediate splash zone but are frequently touched throughout an appointment.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Examples:</strong> This includes light switches, drawer handles, or any surface touched by contaminated gloved hands. It also includes benchtops used to place instruments, materials, or patient items like glasses or a cup.</li><li><strong>The Transition Rule:</strong> Crucially, if a benchtop or surface in a "cleaner" area is touched or used in this way, it <em>immediately becomes part of the Contaminated Zone</em> for that procedure and must be fully cleaned before the next patient.</li></ul>'
+            clinical: {
+                id: 'clinical',
+                title: 'Clinical (Infectious) Waste',
+                badgeColor: 'bg-yellow-500',
+                badgeText: 'Yellow Biohazard Bag',
+                description: 'This category includes any waste that has the potential to cause infection. It must be disposed of in yellow bags or bins clearly marked with the biohazard symbol.',
+                items: [
+                    {
+                        name: 'Contaminated Items',
+                        desc: 'Any disposable item heavily soiled with blood or saliva (e.g., used gauze, cotton rolls, or suction tips).',
+                        icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>'
+                    },
+                    {
+                        name: 'PPE Equipment',
+                        desc: 'Used gloves, masks, and gowns that have been exposed to aerosols, splatter, or body fluids during treatment.',
+                        icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>'
+                    },
+                    {
+                        name: 'Soft Tissue',
+                        desc: 'Any small amounts of human tissue removed during surgical procedures, such as gingival trimmings.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjAgNjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik0xMC4zMTkgMTguNDQ5YTYuMyA2LjMgMCAwIDEgLjkzMi01Ljc0NEE2LjQ2MiA2LjQ2MiAwIDAgMSAxNi40MTIgMTBhMSAxIDAgMCAwIDAtMiA4LjQ2MyA4LjQ2MyAwIDAgMC02Ljc3NiAzLjUyNSA4LjI1OCA4LjI1OCAwIDAgMC0xLjIyMiA3LjUzMiAxIDEgMCAxIDAgMS45MDUtLjYwOFoiIGZpbGw9IiM1MzJhOGMiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48cGF0aCBkPSJNNTMgMjloLTIuMDVhOS45NjUgOS45NjUgMCAwIDAtMTEuNTExLTguODcyQTEyLjQyNCAxMi40MjQgMCAwIDAgMzYuMyA3LjY1OWExMi4yMTEgMTIuMjExIDAgMCAwLTEyLjU3NC0zLjAzOCA1LjYxOCA1LjYxOCAwIDAgMS0zLjUtLjAxN0ExMi4xODggMTIuMTg4IDAgMCAwIDcuNyA3LjY1OWExMi40MjEgMTIuNDIxIDAgMCAwLTMuMSAxMi42bC40MDkgMS4zYTMyLjA3NSAzMi4wNzUgMCAwIDAgMy4xNjYgNy4xOTFjLjA1NC4wODYuMDkzLjE2OS4xNDEuMjU0SDdhNy4wMDggNy4wMDggMCAwIDAtNyA3VjUzYTcuMDA4IDcuMDA4IDAgMCAwIDcgN2g0NmE3LjAwOCA3LjAwOCAwIDAgMCA3LTdWMzZhNy4wMDggNy4wMDggMCAwIDAtNy03Wk02LjkxNCAyMC45NDlsLS40MS0xLjNBMTAuMyAxMC4zIDAgMCAxIDkuMTEgOS4wNzVhMTAuMjMzIDEwLjIzMyAwIDAgMSAxMC41NDgtMi41NTIgNy41NjQgNy41NjQgMCAwIDAgNC43MjctLjAxNEExMC4yMjggMTAuMjI4IDAgMCAxIDM0Ljg5IDkuMDc1YTEwLjMgMTAuMyAwIDAgMSAyLjYxIDEwLjU3OGwtLjQwOCAxLjI4OWEzMC4wMjQgMzAuMDI0IDAgMCAxLTIuOTYyIDYuNzQ4QTYuNjQgNi42NCAwIDAgMCAzMyAzMS4xMzhjMCA5LjI1My0xLjUgMTguODI0LTQgMTguODI0LTIuMTY4IDAtNC0zLjktNC04LjUxNnYtMy45NjVjMC0uOTIxLS4xNDUtNS41MTktMy01LjUxOXMtMyA0LjYtMyA1LjUxOXYzLjk2NWMwIDQuNjE2LTEuODMyIDguNTE2LTQgOC41MTYtMi41IDAtNC05LjU3MS00LTE4LjgyNEE2LjYyOCA2LjYyOCAwIDAgMCA5Ljg3NSAyNy43YTMwLjA4NCAzMC4wODQgMCAwIDEtMi45NjEtNi43NTFaTTU4IDUzYTUuMDA2IDUuMDA2IDAgMCAxLTUgNUg3YTUuMDA2IDUuMDA2IDAgMCAxLTUtNVYzNmE1LjAwNiA1LjAwNiAwIDAgMSA1LTVoMS45ODdjMCAuMDQ1LjAxMy4wOTQuMDEzLjEzOCAwIDYuMjYxLjU4NCAyMC44MjQgNiAyMC44MjQgMy45IDAgNi01LjQxOCA2LTEwLjUxNnYtMy45NjRjMC0xLjc0NC41MDgtMy41MiAxLTMuNTJzMSAxLjc3NiAxIDMuNTE5djMuOTY1YzAgNS4xIDIuMSAxMC41MTYgNiAxMC41MTYgNS40MTYgMCA2LTE0LjU2MyA2LTIwLjgyNGE0Ljc3NyA0Ljc3NyAwIDAgMSAuODI3LTIuMzk0IDMwLjggMzAuOCAwIDAgMCAyLjkwNi02LjQwOEE3Ljg1OSA3Ljg1OSAwIDAgMSA0MSAyMmE4LjAwOSA4LjAwOSAwIDAgMSA4IDggMSAxIDAgMCAwIDEgMWgzYTUuMDA2IDUuMDA2IDAgMCAxIDUgNVoiIGZpbGw9IiM1MzJhOGMiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48cGF0aCBkPSJNNDEgMjRhMSAxIDAgMCAwIDAgMiA0IDQgMCAwIDEgNCA0IDEgMSAwIDAgMCAyIDAgNi4wMDYgNi4wMDYgMCAwIDAtNi02Wk01NCAyNWExIDEgMCAwIDAgMCAyaDNhMSAxIDAgMCAwIDAtMlpNNTAgMjEuNDI2YTEgMSAwIDAgMCAuODEtLjQxMmwxLjc2NC0yLjQyNmExIDEgMCAxIDAtMS42MTctMS4xNzZsLTEuNzY1IDIuNDI2QTEgMSAwIDAgMCA1MCAyMS40MjZaTTQzLjMxNiAxMy44NDdsLS43MzIgMi45MDlhMSAxIDAgMCAwIC43MjYgMS4yMTQgMS4wMzMgMS4wMzMgMCAwIDAgLjI0NS4wMyAxIDEgMCAwIDAgLjk2OC0uNzU2bC43MzItMi45MDlhMSAxIDAgMSAwLTEuOTM5LS40ODhaIiBmaWxsPSIjNTMyYThjIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" class="w-full h-full object-contain" />'
+                    }
+                ]
             },
-            'clean': {
-                number: 3,
-                color: 'brand-green',
-                title: 'The Clean Zone',
-                content: '<p class="mb-2">This zone is your <strong>"Safe Harbour."</strong> It is dedicated to the storage of sterile and clean items to ensure they never come into contact with contaminated materials.</p><ul class="space-y-2 mt-2 md:mt-3"><li><strong>Includes:</strong> Protected storage areas such as closed drawers, cupboards, and dedicated sterile instrument storage.</li><li><strong>Maintenance:</strong> These areas must be kept strictly free of dust, as dust can harbour microorganisms and act as a potential reservoir for infection. Horizontal surfaces in this zone must be damp-dusted daily.</li></ul>'
+            sharps: {
+                id: 'sharps',
+                title: 'Sharps Waste',
+                badgeColor: 'bg-yellow-400 text-yellow-900',
+                badgeText: 'Rigid Yellow Container',
+                description: 'Sharps are any objects capable of cutting or penetrating the skin. These are the highest-risk items for the dental team and must be disposed of in a rigid, puncture-resistant yellow sharps container strictly at the point of use.',
+                items: [
+                    {
+                        name: 'Needles and Scalpels',
+                        desc: 'All sharp instruments that pierce tissue, including local anaesthetic needles and surgical scalpel blades.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMTI4IDEyOCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTEyMC4yMDggMTEuNjgxYTEwLjQ2OSAxMC40NjkgMCAwIDAtMTQuNzg0LjE3N0w0MC44NDcgNzYuNDM2YTEuNzQ4IDEuNzQ4IDAgMCAwIC42NTYgMi44ODdsLjkyOC4zMjZMNS4zNCAxMTYuM2ExLjc1IDEuNzUgMCAwIDAgMS4yMjkgM2guMDk0bDQuNTMtLjI0YTMyLjgxNyAzMi44MTcgMCAwIDAgMjEuNDg0LTkuNTc5bDMuNzg1LTMuNzg1YTkuMjQzIDkuMjQzIDAgMCAwIDIuNy02LjExOSA1Ljc1MyA1Ljc1MyAwIDAgMSAxLjY2LTMuNzg4bDEyLjYzOS0xMi4yNiA1Ljk5NCAyLjEwOGExLjc1IDEuNzUgMCAwIDAgMS44MTctLjQxM2w1OC43NTktNTguNzU5YTEwLjQ2OCAxMC40NjggMCAwIDAgLjE3Ny0xNC43ODR6bS04MS44NDUgODEuNmE5LjI1NSA5LjI1NSAwIDAgMC0yLjcgNi4xMjMgNS43NTYgNS43NTYgMCAwIDEtMS42NzkgMy44MDhsLTMuNzggMy43OGEyOS4zMjUgMjkuMzI1IDAgMCAxLTE5LjEyNyA4LjU1Nkw0Ni4xIDgwLjk0MWwzLjY2NyAxLjI5em03OS4xOTMtNjkuMjkxTDU5LjU3NyA4MS45N2wtMTQuMjktNS4wMjZMMTA3LjkgMTQuMzMzYTYuOTY3IDYuOTY3IDAgMCAxIDkuODM1LS4xNzggNi45NjYgNi45NjYgMCAwIDEtLjE3OSA5LjgzNXoiIGZpbGw9IiM1MzJhOGMiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48cGF0aCBkPSJNMTA2LjczMyAxOC40MzhhNC43NSA0Ljc1IDAgMSAwIDYuNzE4IDAgNC43NTYgNC43NTYgMCAwIDAtNi43MTggMHptNC4yNDMgNC4yNDNhMS4yOCAxLjI4IDAgMCAxLTEuNzY3IDAgMS4yNSAxLjI1IDAgMSAxIDEuNzY3IDB6TTczLjE0IDU0LjUwNmExLjc0OSAxLjc0OSAwIDEgMC0yLjQ3NCAyLjQ3NGw0LjI0MiA0LjI0NGExLjc1IDEuNzUgMCAwIDAgMi40NzUtMi40NzV6TTY4LjM2NyA1OS4yNzlhMS43NSAxLjc1IDAgMSAwLTIuNDc0IDIuNDc1TDcwLjEzNSA2NmExLjc1IDEuNzUgMCAwIDAgMi40NzUtMi40NzV6TTYzLjU5NCA2NC4wNTJhMS43NDkgMS43NDkgMCAwIDAtMi40NzQgMi40NzRsNC4yNDIgNC4yNDRhMS43NSAxLjc1IDAgMSAwIDIuNDc1LTIuNDd6IiBmaWxsPSIjNTMyYThjIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Glass Cartridges',
+                        desc: 'Because glass can shatter under pressure, all glass anaesthetic cartridges are strictly classified as sharps.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Im04LjMxIDM4LjI3LTUuNjUgNS42NWMtMS4yMyAxLjIzLTEuNDcgMy4yMi0uNjggNS42QTE3LjI0IDE3LjI0IDAgMCAwIDYuMTkgNTZhMTcuMjEgMTcuMjEgMCAwIDAgNi40MyA0LjIgOC4wOCA4LjA4IDAgMCAwIDIuNTcuNDYgNC4xNCA0LjE0IDAgMCAwIDMtMS4xM2w1LjY2LTUuNjZBNC40OSA0LjQ5IDAgMCAwIDI0LjkyIDUwbDIwLjUxLTIwLjU3YTYuNzkgNi43OSAwIDAgMCAuODguMDcgNC4wOCA0LjA4IDAgMCAwIDMtMS4xM0w1NSAyMi43MWMxLjIzLTEuMjIgMS40Ny0zLjIxLjY3LTUuNTlhMTcuMjEgMTcuMjEgMCAwIDAtNC4yLTYuNDNBMTcuMjQgMTcuMjQgMCAwIDAgNDUgNi40OGMtMi4zOC0uNzktNC4zNy0uNTUtNS42LjY4bC01LjY1IDUuNjVhNC40OCA0LjQ4IDAgMCAwLTEuMDcgMy45TDEyLjE5IDM3LjIyYTQuNDkgNC40OSAwIDAgMC0zLjg4IDEuMDV6bTguNDkgMTkuOGMtLjY2LjY1LTIgLjcyLTMuNTUuMThhMTUuMjcgMTUuMjcgMCAwIDEtNS42NS0zLjcyIDE1LjE2IDE1LjE2IDAgMCAxLTMuNzItNS42NGMtLjUzLTEuNi0uNDYtMi45LjE5LTMuNTVhMi4yNCAyLjI0IDAgMCAxIDEuNjItLjU1IDYuMjIgNi4yMiAwIDAgMSAxLjkzLjM2IDE1LjE2IDE1LjE2IDAgMCAxIDUuNjQgMy43MkExNS4xNSAxNS4xNSAwIDAgMSAxNyA1NC41MmMuNTIgMS42LjQ1IDIuODktLjIgMy41NXptNS42NS01LjY2LTMuMTcgMy4xN2E4Ljc1IDguNzUgMCAwIDAtLjQtMS42OSAxNy4yMSAxNy4yMSAwIDAgMC00LjItNi40MyAxNy4yNCAxNy4yNCAwIDAgMC02LjQzLTQuMjEgOS42NiA5LjY2IDAgMCAwLTEuNy0uNGwzLjE4LTMuMTdjMS4zMy0xLjM0IDUuNDQtLjIxIDkuMTkgMy41NHM0Ljg3IDcuODUgMy41MyA5LjE5ek00MC44NCA4LjU3Yy42NS0uNjUgMS45NS0uNzIgMy41NS0uMTlBMTUuMTYgMTUuMTYgMCAwIDEgNTAgMTIuMWExNS4yNyAxNS4yNyAwIDAgMSAzLjcyIDUuNjVjLjU0IDEuNi40NyAyLjg5LS4xOCAzLjU1bC0zLjE4IDMuMTdxMC0uMjUtLjA5LS41NGEuMzYuMzYgMCAwIDAgMC0uMSAxNiAxNiAwIDAgMC00LjQ5LTcuNDggMTYgMTYgMCAwIDAtNy40Ny00LjQ5aC0uMTFjLS4xOSAwLS4zNy0uMDYtLjU1LS4wOHptLTIuNTMgNS4zNmExNC41NSAxNC41NSAwIDAgMSA2LjA2IDMuODMgMTQuNjcgMTQuNjcgMCAwIDEgMy44NCA2LjA3TDI0LjM0IDQ3LjdhMTcuNjMgMTcuNjMgMCAwIDAtNC01LjkgMTcuNDYgMTcuNDYgMCAwIDAtNS44OS00eiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjxwYXRoIGQ9Ik0yNy41NiA0MC40NmEyLjY0IDIuNjQgMCAwIDAgMi0uNzdjMS41NS0xLjU1LjQ2LTMuOTUtLjUtNi4wNy0uNjYtMS40NS0xLjQ5LTMuMjYtLjkyLTMuODNzMi4zOC4yNSAzLjgzLjkxYzIuMTIgMSA0LjUyIDIuMDUgNi4wNy41cy40Ni0zLjk1LS41LTYuMDdjLS42Ni0xLjQ1LTEuNDgtMy4yNi0uOTEtMy44M3MyLjM4LjI1IDMuODMuOTFjMi4xMiAxIDQuNTIgMi4wNSA2LjA4LjVsLTEuNDYtMS40MWMtLjU3LjU3LTIuMzgtLjI1LTMuODMtLjkxLTIuMTItMS00LjUyLTIuMDYtNi4wNy0uNXMtLjQ2IDMuOTUuNSA2LjA3Yy42NiAxLjQ1IDEuNDggMy4yNi45MSAzLjgzcy0yLjM4LS4yNS0zLjgzLS45MWMtMi4xMi0xLTQuNTItMi4wNS02LjA3LS41cy0uNDYgMy45NS41MSA2LjA3Yy42NiAxLjQ1IDEuNDggMy4yNS45MSAzLjgycy0yLjM4LS4yNS0zLjgzLS45MWMtMi4xMi0xLTQuNTItMi4wNi02LjA3LS41MWwxLjQyIDEuNDJjLjU3LS41NyAyLjM3LjI1IDMuODIuOTFhMTEgMTEgMCAwIDAgNC4xMSAxLjI4eiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjwvZz48L3N2Zz4=" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Endodontic Files',
+                        desc: 'Small, sharp, and highly fragile instruments used during root canal therapy, as well as orthodontic wires.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNDkyIDQ5MiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PHBhdGggZmlsbD0iIzUzMmE4YyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTgxLjgwOSA0MzEuMDU5Yy03LjAxIDAtMTMuNTM3LTMuMzE3LTE3Ljc4MS05LjI2NmEyNzAuNTE0IDI3MC41MTQgMCAwIDEtMTIuMTAxLTE4LjU0OGMtMTYuNjUtMjcuOTMtMjAuODI0LTYwLjU1My0yNS4yNDQtOTUuMDkyLTEuMTg3LTkuMjgtMi40MTUtMTguODc1LTMuOTA3LTI4LjU4NS0xLjIxMi03Ljg4OS00LjY2LTE2LjEyNC04LjMxLTI0Ljg0Mi01LjAwNi0xMS45NTctMTAuMTgzLTI0LjMyMi0xMC4xODMtMzcuMzl2LS40NThjLjAyLTE4LjQ0MyA1LjUyNC0zNi4yMzUgMTUuOTE3LTUxLjQ1NSAxMC40MzEtMTUuMjc1IDI1LjAyMi0yNi44MzEgNDIuMTk2LTMzLjQxNyA5Ljc5OS0zLjc1OCAxOS44OTEtNS42NjMgMjkuOTk2LTUuNjYzIDkuNzEzIDAgMTkuODk2IDIuNDM2IDMwLjI2NSA3LjIzOCA1LjczNCAyLjY1NiAxMS41NzIgNi4wMyAxNy42NjUgMTAuMjE2YTEwLjQ4MSAxMC40ODEgMCAwIDAgMTEuODc4IDBjNi4wOTItNC4xODYgMTEuOTMxLTcuNTYgMTcuNjY1LTEwLjIxNiAxMC4zNjktNC44MDMgMjAuNTUzLTcuMjM4IDMwLjI2NS03LjIzOCAxMC4xMDUgMCAyMC4xOTYgMS45MDUgMjkuOTk0IDUuNjYzIDE3LjE3NCA2LjU4NyAzMS43NjUgMTguMTQyIDQyLjE5NSAzMy40MTcgMTAuMzkzIDE1LjIyIDE1Ljg5NiAzMy4wMTMgMTUuOTE3IDUxLjQ1M3YuNDYxYzAgMTMuMDY4LTUuMTc3IDI1LjQzMy0xMC4xODMgMzcuMzktMy42NSA4LjcxOC03LjA5OCAxNi45NTMtOC4zMSAyNC44NDItMS40OTIgOS43MS0yLjcxOSAxOS4zMDUtMy45MDcgMjguNTg1LTQuNDE5IDM0LjUzOC04LjU5NCA2Ny4xNjEtMjUuMjQzIDk1LjA5MWEyNzEuMDYxIDI3MS4wNjEgMCAwIDEtMTIuMDk5IDE4LjU0NWMtNC4yNDQgNS45NDgtMTAuNzczIDkuMjY2LTE3Ljc4MiA5LjI2Ny0xLjY2NCAwLTMuMzU1LS4xODctNS4wNDktLjU3LTguODc5LTIuMDA4LTE1LjM3OS04LjgyMS0xNi45NjMtMTcuNzgxLTYuMTU3LTM0LjgyNi0xMy4zODgtNjQuMTE4LTIwLjkxMy04NC43MTEtNC4wNTYtMTEuMS04LjE2Mi0xOS42MDktMTIuMjAzLTI1LjI5LTMuNDIyLTQuODEtNi43MzMtNy40NTktOS4zMjUtNy40NTktMi41OTEgMC01LjkwMyAyLjY0OS05LjMyNSA3LjQ2LTQuMDQyIDUuNjgxLTguMTQ3IDE0LjE5MS0xMi4yMDMgMjUuMjktNy41MjQgMjAuNTkyLTE0Ljc1NSA0OS44ODUtMjAuOTExIDg0LjcxMi0xLjU4NCA4Ljk2LTguMDgzIDE1Ljc3My0xNi45NjMgMTcuNzgxYTIyLjg2IDIyLjg2IDAgMCAxLTUuMDQ4LjU3em02NC40NTMtMjcxLjE5MmMtMi4yODQgMC00LjUwNC0uNzU0LTYuMzI1LTIuMTMzLTE3LjY0My0xMy4zNjYtMzMuMjIyLTE5Ljg3Mi00Ny41NDQtMTkuODcyLTguNjkgMC0xNy4zOTQgMS42NDktMjUuODcxIDQuODk5LTMwLjMwMSAxMS42Mi01MC42ODMgNDEuNDEtNTAuNzE4IDc0LjEyOHYuNDQ4YzAgMTAuNzU1IDQuNzIyIDIyLjAzNCA5LjI4OSAzMi45NDIgMy43NTggOC45NzUgNy42NDMgMTguMjU2IDkuMDcgMjcuNTQxIDEuNTE0IDkuODUyIDIuNzUxIDE5LjUyMSAzLjk0OCAyOC44NzIgNC40NDggMzQuNzYzIDguMjkgNjQuNzg0IDIzLjcxMiA5MC42NTVhMjU5LjI4NyAyNTkuMjg3IDAgMCAwIDExLjU4MyAxNy43NTVjMi41NDcgMy41NjkgNi42MjcgNS4xMiAxMC45MTQgNC4xNTEgNC4zMzYtLjk4MSA3LjM4Ny00LjE3NyA4LjE2LTguNTUgNi4yNzItMzUuNDc5IDEzLjY4NC02NS40NDYgMjEuNDM1LTg2LjY2IDQuNDEtMTIuMDY4IDguOTk3LTIxLjQ5NCAxMy42MzctMjguMDE1IDUuODA3LTguMTYzIDEyLjEwMy0xMi4zMDEgMTguNzEyLTEyLjMwMXMxMi45MDQgNC4xMzggMTguNzExIDEyLjMwMWM0LjYzOSA2LjUyMSA5LjIyNyAxNS45NDYgMTMuNjM2IDI4LjAxNCA3Ljc1MiAyMS4yMTUgMTUuMTY0IDUxLjE4MSAyMS40MzYgODYuNjU5Ljc3MyA0LjM3NCAzLjgyNCA3LjU3IDguMTYgOC41NSA0LjI4Ni45NjkgOC4zNjctLjU4MiAxMC45MTQtNC4xNTExYTI1OS40ODMgMjU5LjQ4MyAwIDAgMCAxMS41ODEtMTcuNzUzYzE1LjQyMi0yNS44NyAxOS4yNjMtNTUuODkyIDIzLjcxMS05MC42NTQgMS4xOTctOS4zNTEgMi40MzQtMTkuMDIgMy45NDgtMjguODcyIDEuNDI3LTkuMjg1IDUuMzEyLTE4LjU2NiA5LjA3LTI3LjU0MSA0LjU2Ny0xMC45MDggOS4yODktMjIuMTg3IDkuMjg5LTMyLjk0MnYtLjQ0NmMtLjAzNi0zMi43Mi0yMC40MTctNjIuNTEtNTAuNzE3LTc0LjEzLTguNDc3LTMuMjUxLTE3LjE4MS00Ljg5OS0yNS44Ny00Ljg5OS0xNC4zMjMgMC0yOS45MDIgNi41MDYtNDcuNTQ0IDE5Ljg3MmExMC40OTggMTAuNDk4IDAgMCAxLTYuMzI3IDIuMTMyeiIgY2xpcC1ydWxlPSJldmVub2RkIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMjEyMTIxIiBjbGFzcz0iIj48L3BhdGg+PHBhdGggZmlsbD0iIzUzMmE4YyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTc1LjM0MyAzNzAuMjQ4YTUuNzYgNS43NiAwIDAgMS01LjQ2LTMuOTMyYy02LjA4OC0xOC4xOTEtOC44MjMtMzkuNTYzLTExLjcxOS02Mi4xOTEtMS4yMTMtOS40NzgtMi40NjYtMTkuMjc0LTQuMDE4LTI5LjM3Ni0xLjgwMy0xMS43MzgtNi4zNzMtMjIuNjUxLTEwLjQwNC0zMi4yNzktMy45Ny05LjQ4My03LjcyLTE4LjQ0MS03LjcyLTI1LjEzM3YtLjQyMmMuMDI3LTI0LjQxNiAxNS4xOTMtNDYuNjI4IDM3LjczOS01NS4yNzUgNi4yNDQtMi4zOTUgMTIuMzM5LTMuNTU5IDE4LjYzMi0zLjU1OSAxMC4zNDcgMCAyMi43MDcgNS43NzggMzcuNzg3IDE3LjY2NWw5LjcxNyA3LjY2YTEwLjI4NCAxMC4yODQgMCAwIDAgMTIuNzMyIDBsOS43MTctNy42NTljMTUuMDc5LTExLjg4NiAyNy40MzktMTcuNjY1IDM3Ljc4Ni0xNy42NjUgNi4yOTIgMCAxMi4zODYgMS4xNjQgMTguNjMgMy41NTkgMjIuNTQ1IDguNjQ2IDM3LjcxMiAzMC44NTggMzcuNzM4IDU1LjI3MXYuNDI3YzAgNi42OTItMy43NSAxNS42NDktNy43MiAyNS4xMzEtNC4wMzIgOS42MzEtOC42MDEgMjAuNTQ0LTEwLjQwNSAzMi4yODItMS41NTMgMTAuMTA3LTIuODA2IDE5LjkwMy00LjAxOCAyOS4zNzYtMi44OTYgMjIuNjMyLTUuNjMgNDQtMTEuNzE3IDYyLjE4N2E1Ljc2IDUuNzYgMCAwIDExMS4wNzItLjUyNmMtNC40MTItMTkuMDE3LTkuMTExLTM1LjM5Ni0xMy45NjYtNDguNjgzLTUuMTAxLTEzLjk2LTEwLjM4NC0yNC42ODctMTYuMTUyLTMyLjc5NS0xMi4yMjktMTcuMTkyLTI1Ljg4NS0yMC44LTM1LjE4Ny0yMC44cy0yMi45NTggMy42MDgtMzUuMTg3IDIwLjhjLTUuNzY4IDguMTA3LTExLjA1MSAxOC44MzUtMTYuMTUyIDMyLjc5Ni00Ljg1NSAxMy4yODYtOS41NTMgMjkuNjY3LTEzLjk2NiA0OC42ODZhNS43NTkgNS43NTkgMCAwIDEtNS4zMzcgNC40NTFjLS4wOTQuMDAxLS4xODYuMDA0LS4yNzguMDA0em03MC45MTktMTY5Ljk2NmMtMi4zMDkgMC00LjU1Mi0uNzc4LTYuMzY2LTIuMjA4bC0xNi44NDgtMTMuMjgxYy0xNS45MjktMTIuNTU3LTI1LjQ2My0xNS4xOTItMzAuNjU1LTE1LjE5Mi00Ljg1NyAwLTkuNjAzLjkxNC0xNC41MDcgMi43OTUtMTguMTI5IDYuOTUyLTMwLjMyMyAyNC44NDctMzAuMzQ1IDQ0LjUyOXYuNDE2YzAgNC4zNzUgMy42MjcgMTMuMDM4IDYuODI3IDIwLjY4MSA0LjI4NyAxMC4yNCA5LjE0NiAyMS44NDUgMTEuMTY0IDM0Ljk3OSAxLjU3NCAxMC4yNDYgMi44MzcgMjAuMTE1IDQuMDU4IDI5LjY1OCAxLjc4NCAxMy45NDUgMy40MjEgMjYuNzM0IDUuNzA4IDM4LjQ1OCAyLjg1LTEwLjM3NCA1Ljc5NC0xOS43MyA4LjgwMy0yNy45NjYgNS40Ni0xNC45NDMgMTEuMjEyLTI2LjU2MiAxNy41ODUtMzUuNTIgMTUuMDc2LTIxLjE5NCAzMi41NjEtMjUuNjQyIDQ0LjU3NC0yNS42NDJzMjkuNDk3IDQuNDQ5IDQ0LjU3MyAyNS42NDJjNi4zNzMgOC45NTkgMTIuMTI1IDIwLjU3OCAxNy41ODUgMzUuNTE5IDMuMDA5IDguMjM2IDUuOTUzIDE3LjU5IDguODAzIDI3Ljk2MyAyLjI4Ni0xMS43MTkgMy45MjItMjQuNTA0IDUuNzA2LTM4LjQ0MSAxLjIyMi05LjU1MiAyLjQ4NS0xOS40MjEgNC4wNi0yOS42NzIgMi4wMTgtMTMuMTMzIDYuODc3LTI0Ljc0IDExLjE2NS0zNC45NzkgMy4yLTcuNjQ0IDYuODI3LTE2LjMwNiA2LjgyNy0yMC42ODR2LS40MTRjLS4wMjItMTkuNjgxLTEyLjIxNS0zNy41NzYtMzAuMzQ0LTQ0LjUyOC00LjkwNC0xLjg4LTkuNjQ4LTIuNzk0LTE0LjUwNS0yLjc5NC01LjE5MyAwLTE0LjcyNiAyLjYzNi0zMC42NTUgMTUuMTkybC0xNi44NDggMTMuMjgxYTEwLjI4IDEwLjI4IDAgMCAxLTYuMzY1IDIuMjA4eiIgY2xpcC1ydWxlPSJldmVub2RkIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMjEyMTIxIiBjbGFzcz0iIj48L3BhdGg+PHBhdGggZmlsbD0iIzUzMmE4YyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTc1LjM0MyAzNzAuMjQ3YTUuNzU5IDUuNzU5IDAgMCAxLTUuNzU2LTUuNjRjLS4wMS0uNDc5LS45MDMtNDguNTY5IDYuNzg3LTEwNC43MzEgNC41MzEtMzMuMDg3IDExLjExMy02Mi41MTQgMTkuNTY0LTg3LjQ2MyAxMC42OTYtMzEuNTc4IDI0LjQ3OS01Ni4xMzYgNDAuOTYzLTcyLjk5MiAxOC4yOTUtMTguNzA2IDQwLjEwMy0yOC4yMSA2NC44MTgtMjguMjQ4aC4wMDlhNS43NiA1Ljc2IDAgMCAxIC4wMDggMTEuNTJjLTIxLjUwMy4wMzMtNDAuNTQ0IDguMzY5LTU2LjU5MyAyNC43NzYtMjcuNTcxIDI4LjE4Ni00Ny4zOTcgODEuMzcxLTU3LjMzNCAxNTMuODA1LTcuNTg2IDU1LjI5NS02LjcxNSAxMDIuNjIzLTYuNzA1IDEwMy4wOTVhNS43NiA1Ljc2IDAgMCAxLTUuNjQgNS44NzdsLS4xMjEuMDAxeiIgY2xpcC1ydWxlPSJldmVub2RkIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMjEyMTIxIiBjbGFzcz0iIj48L3BhdGg+PHBhdGggZmlsbD0iIzUzMmE4YyIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzQxLjY3MSA5MS40NDZoLTMxLjE5Yy04LjAwMyAwLTE0LjUxMy02LjUxLTE0LjUxMy0xNC41MTNzNi41MTEtMTQuNTEzIDE0LjUxMy0xNC41MTNoMzEuMTljOC4wMDMgMCAxNC41MTMgNi41MSAxNC41MTMgMTQuNTEzIDAgOC4wMDItNi41MTEgMTQuNTEzLTE0LjUxMyAxNC41MTN6bS0zMS4xOS0xNy41MDdjLTEuNjIzIDAtMi45OTQgMS4zNzEtMi45OTQgMi45OTMgMCAxLjYyMyAxLjM3MSAyLjk5NCAyLjk5NCAyLjk5NGgzMS4xOWMxLjYyMyAwIDIuOTkzLTEuMzcxIDIuOTkzLTIuOTk0cy0xLjM3MS0yLjk5My0yLjk5My0yLjk5M3oiIGNsaXAtcnVsZT0iZXZlbm9kZCIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzIxMjEyMSIgY2xhc3M9IiI+PC9wYXRoPjwvZz48L3N2Zz4=" class="w-full h-full object-contain" />'
+                    }
+                ]
+            },
+            pharmaceutical: {
+                id: 'pharmaceutical',
+                title: 'Pharmaceutical Waste',
+                badgeColor: 'bg-purple-600',
+                badgeText: 'Purple-Lidded Bin',
+                description: 'This includes any medicinal waste that is no longer required. It must be disposed of correctly to prevent active chemical compounds from entering the general water system or environment.',
+                items: [
+                    {
+                        name: 'Expired Medications',
+                        desc: 'Any emergency drugs, antibiotics, or specific clinic medicaments that have passed their designated "use-by" date.',
+                        icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
+                    },
+                    {
+                        name: 'Anaesthetic Residue',
+                        desc: 'Any leftover local anaesthetic liquid that remains within a cartridge after a procedure is completed.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjAwIDIwMCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTI0LjcgMTUwLjJjLS4xLS45LS45LTEuNi0xLjktMS42aC0uMmMtLjkgMC0xLjcuNy0xLjkgMS42LS40IDMuMS0yLjMgNy43LTYuNCAxNS45LTMuNCA2LjgtMi4zIDExLjMtLjcgMTMuOCAyLjMgMy44IDYuNiA1LjIgOC45IDUuM2guNGMyLjQtLjEgNi42LTEuNiA4LjktNS4zIDEuNS0yLjYgMi43LTctLjctMTMuOC00LjEtOC4zLTUuOS0xMi45LTYuNC0xNS45em0zLjkgMjcuN2MtMS40IDIuNC00LjMgMy41LTUuOSAzLjUtMS42IDAtNC40LTEuMS01LjktMy41LTEuNS0yLjUtMS4yLTYgLjktMTAuMiAyLjQtNC45IDQtOC4zIDUtMTAuOSAxIDIuNiAyLjYgNi4xIDUgMTAuOSAyLjEgNC4yIDIuNCA3LjcuOSAxMC4yek0xNzcuNSAxMDIuMWMxLjctMS4zIDIuOS0zLjMgMi45LTUuN1Y4NS42YzIuNS0uNyA0LjQtMyA0LjQtNS43Vjc2YzAtMy4zLTIuNy02LTYtNmgtNDUuNGMtMy4zIDAtNiAyLjctNiA2djMuOGMwIDIuNyAxLjkgNSA0LjQgNS43djEwLjljMCAyLjMgMS4xIDQuNCAyLjkgNS43LTQuNSAxLjktMTAuNSA2LjItMTAuNSAxNXY2NS4yYzAgNC4yIDIuNiA3LjkgNi41IDkuNSA1LjUgMi4xIDEzLjkgMy4yIDI1LjEgMy4ySDE1Ni4xYzExLjIgMCAxOS42LTEuMSAyNS0zLjIgNC0xLjUgNi41LTUuMiA2LjUtOS41di02NS4yYy4yLTguOC01LjgtMTMuMS0xMC4xLTE1em0tMzQuNiAxMC44di0zaDI2LjV2M3ptMjYuMSAzLjdjLS41IDEuMi0xLjIgMi4zLTEuNiAyLjRoLTIyLjVjLS40LS4xLTEuMi0xLjEtMS42LTIuNHptLjQtMTAuNWgtMjYuNXYtMi42aDI2LjV6bTEuOC02LjNoLTMyLjNjLTEuOCAwLTMuMy0xLjUtMy4zLTMuM1Y4NS44aDQxdjEwLjZjMCAxLjgtMS41IDMuMy0zLjMgMy4zaC0yLjF6bS00MC0yMy44YzAtMS4yIDEtMi4yIDIuMi0yLjJoNDUuNGMxLjIgMCAyLjIgMSAyLjIgMi4ydjMuOGMwIDEuMi0xIDIuMi0yLjIgMi4yaC00NS40Yy0xLjIgMC0yLjItMS0yLjItMi4yem03LjUgMjguN2MuMSAwIC4zLS4xLjQtLjF2MTAuMmMwIDIuOCAyLjIgNy45IDUuOCA3LjloMjIuNWMzLjUgMCA1LjctNSA1LjgtNy45di0xMC4yYy4zLjEuNy4xIDEgLjIgMy43IDEuMiAxMCA0LjQgMTAgMTIuM3Y5LjdIMTI4di05LjdjMC04LjEgNi43LTExLjIgMTAuNy0xMi40em00MS4zIDgzLjZjLTUgMS45LTEzLjEgMi45LTIzLjggMi45aC0uMmMtMTAuNyAwLTE4LjgtMS0yMy44LTIuOS0yLjUtMS00LjEtMy4zLTQuMS01Ljl2LTUxLjdoNTYuMXY1MS43Yy0uMSAyLjYtMS43IDQuOS00LjIgNS45eiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjxwYXRoIGQ9Ik0xNjkuOSAxMzYuOGgtMjcuOGMtMi41IDAtNC42IDItNC42IDQuNnYxMi41YzAgMi41IDIgNC42IDQuNiA0LjZoMjcuOGMyLjUgMCA0LjYtMiA0LjYtNC42di0xMi41YzAtMi41LTIuMS00LjYtNC42LTQuNnptLjggMTcuMWMwIC40LS40LjgtLjguOGgtMjcuOGMtLjQgMC0uOC0uNC0uOC0uOHYtMTIuNWMwLS40LjQtLjguOC0uOGgyNy44Yy40IDAgLjguNC44Ljh6TTEyOC43IDU3LjlsMS41LTEuNWMxLjktMS45IDEuOS01IDAtNi45bC0yLjItMi4yIDIxLjQtMjEuNWMuNy4zIDEuNS41IDIuNC41IDEuNSAwIDIuOS0uNiAzLjktMS42bC42LS42YzEtMSAxLjYtMi40IDEuNi0zLjlzLS42LTIuOS0xLjYtMy45bC05LjYtOS42Yy0xLTEuMS0yLjQtMS42LTMuOS0xLjZzLTIuOS42LTMuOSAxLjZsLS42LjZjLTEuMSAxLjEtMS43IDIuNS0xLjYgNCAwIC44LjIgMS41LjUgMi4yTDExNS42IDM1bC0yLjUtMi41Yy0xLjktMS45LTUtMS45LTYuOSAwbC0xLjUgMS41Yy0xLjUgMS41LTEuOCAzLjctLjkgNS41TDkxLjMgNTJsLTM2IDM2Yy0uNC4zLTMuNiAzLjMtNC42IDQuNi0yLjUgMy4yLTEuNyA2LS45IDguNi4xLjMuMi43LjMgMS0uMy4xLS42LjItLjguNWwtMS42IDEuNmMtLjcuNy0uNyAxLjkgMCAyLjYtMS44IDItNS4xIDUuOC03LjEgOC42LS44IDEuMS0uOSAzLjQtLjYgNC45bC0xOS4zIDE5LjNjLS43LjctLjcgMS45IDAgMi43LjQuNC44LjYgMS4zLjZzMS0uMiAxLjMtLjZMNDIuNyAxMjNjMS41LjIgMy42LS4xIDQuNi0uOSAyLjctMiA2LjYtNS40IDguNi03LjEuNy43IDEuOS43IDIuNiAwbDEuNi0xLjZjLjMtLjMuNS0uNy41LTEuMWwuMy0uMiA0LjEuN2MyLjIuNCA0LjUtLjMgNi4xLTEuOWw1Mi4xLTUyLjFjMS44LjggNCAuNSA1LjUtLjl6TTE0MC45IDE1Yy40LS40LjYtLjkuNi0xLjRzLS4yLTEtLjYtMS4zYy0uMy0uMy0uNS0uNi0uNS0xLjFzLjItLjkuNS0xLjNsLjYtLjZjLjctLjcgMS45LS43IDIuNSAwbDkuNiA5LjZjLjMuMy41LjguNSAxLjNzLS4yLjktLjUgMS4zbC0uNi41Yy0uNy43LTEuOS43LTIuNSAwLS40LS40LS44LS42LTEuMy0uNnMtMSAuMi0xLjMuNmwtMjIuNSAyMi42LTctN3ptLTg3LjEgOTYuOGMtMS43IDEuNS02IDUuMy04LjggNy40LS4zLjEtLjkuMi0xLjUuMiAwLS42IDAtMS40LjEtMS43IDIuMi0yLjkgNS45LTcuMSA3LjQtOC44LjEtLjEuMi0uMi4yLS4zbC40LS44IDMuMyAzLjMtLjguNC0uMy4zem0xNC42LTMuNWMtLjcuNy0xLjggMS4xLTIuOC45bC00LjgtLjljLS40LS4xLS45IDAtMS4yLjJsLTEuMi43LTQuOS00LjkuMy0uNWMuMi0uNC4zLS45LjItMS4zLS4yLS45LS40LTEuNy0uNi0yLjQtLjctMi41LTEtMy41LjMtNS4yLjYtLjggMi45LTMgNC4zLTQuMkw5Mi43IDU2bDE0IDE0em01Ni4xLTUzLjEtLjItLjJjLS43LS43LTEuOS0uNy0yLjYgMGwtMTIuMyAxMi4zLTE0LTE0TDEwNy43IDQxYy43LS43LjctMS45IDAtMi43bC0uMi0uMmMtLjQtLjQtLjQtMS4xIDAtMS41bDEuNS0xLjVjLjQtLjQgMS4xLS40IDEuNSAwbDMuOCAzLjggOS43IDkuNyAzLjYgMy42Yy40LjQuNCAxLjEgMCAxLjVsLTEuNSAxLjVjLS40LjQtMS4yLjQtMS42IDB6IiBmaWxsPSIjNTMyYThjIiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Correct Disposal',
+                        desc: 'Strictly placed in a dedicated purple-lidded bin or returned to a pharmacy for high-temperature incineration.',
+                        icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>'
+                    }
+                ]
+            },
+            chemical: {
+                id: 'chemical',
+                title: 'Chemical Waste',
+                badgeColor: 'bg-brand-green',
+                badgeText: 'Specialised Disposal',
+                description: 'Dental practices use various hazardous chemicals that require specialised handling and disposal protocols to protect municipal water supplies and the broader environment.',
+                items: [
+                    {
+                        name: 'Amalgam Waste',
+                        desc: 'Waste amalgam contains mercury. These must be collected in dedicated separators and never rinsed down the drain.',
+                        icon: '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4a3 3 0 0 1 3 3c0 1.5 1 2 2 2s2-.5 2-2a3 3 0 0 1 3-3c2 0 3.5 1.5 3.5 3.5 0 2.5-1.5 4-2.5 5.5l-1.5 6a2 2 0 0 1-3.5.5L12 17l-1.5 2.5a2 2 0 0 1-3.5-.5l-1.5-6C4.5 11.5 3 10 3 7.5 3 5.5 4.5 4 7 4z"></path></svg>'
+                    },
+                    {
+                        name: 'X-ray Chemicals',
+                        desc: 'Fixer and developer solutions used in traditional, non-digital radiography require specialised chemical collection.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik01Ni4yNTcgMy4yNjdBMTAuODA4IDEwLjgwOCAwIDAgMCA0OS42NTIgMUg0NmExNS45NyAxNS45NyAwIDAgMC03IDEuNjIzVjJhMSAxIDAgMCAwLTEtMUgyYTEgMSAwIDAgMC0xIDF2NjBhMSAxIDAgMCAwIDEgMWgzNmExIDEgMCAwIDAgMS0xVjM2LjQ0NmE0LjczMiA0LjczMiAwIDAgMSAyLjQyOCAyLjY1NUE0Mi42IDQyLjYgMCAwIDEgNDQgNTMuNzA1djQuNjU5QTQuNjQyIDQuNjQyIDAgMCAwIDQ4LjYzNyA2M2E0LjY0MiA0LjY0MiAwIDAgMCA0LjIzNy0yLjc1M0EzNi4wNjMgMzYuMDYzIDAgMCAwIDU2IDQ1LjUxNXYtMi41NjhjMC00LjM2NyAxLjE2My04LjY2OSAzLjM2NC0xMi40NDJBMjYuNzQxIDI2Ljc0MSAwIDAgMCA2MyAxNy4wNTRjMC01LjQzLTIuNDU4LTEwLjQ1NS02Ljc0My0xMy43ODd6TTM3IDYxSDNWM2gzNHptMjAuNjM2LTMxLjUwNEEyNi43MzUgMjYuNzM1IDAgMCAwIDU0IDQyLjk0NnYyLjU2OGMwIDQuODI1LS45OTQgOS41MDgtMi45NTQgMTMuOTE5QTIuNjM4IDIuNjM4IDAgMCAxIDQ4LjYzNyA2MSAyLjY0IDIuNjQgMCAwIDEgNDYgNTguMzYzdi00LjY1OWMwLTUuMjMtLjkwNi0xMC4zNzQtMi42OTMtMTUuMjg3QTYuNzM1IDYuNzM1IDAgMCAwIDM5IDM0LjMwN1Y0Ljg4NUExMy45NzUgMTMuOTc1IDAgMCAxIDQ2IDNoMy42NTJjMS45MzggMCAzLjg0Ny42NTUgNS4zNzYgMS44NDVBMTUuMzY2IDE1LjM2NiAwIDAgMSA2MSAxNy4wNTRhMjQuNzIgMjQuNzIgMCAwIDEtMy4zNjQgMTIuNDQyeiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjxwYXRoIGQ9Ik02IDU5aDI4YTEgMSAwIDAgMCAxLTFWNmExIDEgMCAwIDAtMS0xSDZhMSAxIDAgMCAwLTEgMXY1MmExIDEgMCAwIDAgMSAxem0yNC0ydi0zLjI5NWMwLTQuOTk3Ljg2NS05LjkxIDIuNTcyLTE0LjYwMy4xMS0uMzAyLjI2LS41ODUuNDI4LS44NTZWNTd6bS0zLjA0My0yNC41NDIgMi43NS0yLjc1YTEuMDEgMS4wMSAwIDAgMCAuMjQxLS4zOTFsMS0zLTEuODk2LS42MzMtLjkyNiAyLjc3NkwyNyAyOS41ODZ2LTIuMzA5bDIuODU3LTQuNzYyYy4xNzYtLjI5My4xODktLjY1Ni4wMzctLjk2MmwtLjgyNC0xLjY0N0wzMC44IDE3LjZhMSAxIDAgMCAwIC4yLS42di0zaC0ydjIuNjY3bC0uOTI5IDEuMjM5LTEuMTc2LTIuMzUzLTEuNzg5Ljg5NSAyLjc1NSA1LjUwOS0xLjMwOSAyLjE4MS0xLjY0OC0xLjY0OC0uOTM0LTMuNzMxLTEuOTM5LjQ4NS43NzUgMy4xMDEtMi4xMjIuNzA3LjYzMyAxLjg5NyAyLjQxNC0uODA1IDEuNzYxIDEuNzYxLS4zNDguNThBLjk4OS45ODkgMCAwIDAgMjUgMjdsLjAwNSA0LjkwNS0uOTk5IDEwLjQ4NmMwLS4wNzQtLjAwNi0uMTQ5LS4wMDYtLjIyNCAwLTQuODk4LTEuMDI4LTkuNjQ1LTMuMDU2LTE0LjEwNmwtMS4wNzYtMi4zNjlBOS42MDIgOS42MDIgMCAwIDEgMTkgMjEuNjg2QzE5IDE2LjM0NSAyMy4zNDUgMTIgMjguNjg2IDEySDMzdjE5LjMzMWExMi4wNDYgMTIuMDQ2IDAgMCAwLTYuNTQ2IDYuNDEzek0zMyAxMGgtNC4zMTRDMjIuMjQyIDEwIDE3IDE1LjI0MiAxNyAyMS42ODZjMCAxLjY4MS4zNTMgMy4zMDggMS4wNDggNC44MzVsMS4wNzYgMi4zNjhBMzEuODkyIDMxLjg5MiAwIDAgMSAyMiA0Mi4xNjdjMCAxLjI1My4wNyAyLjUyLjIwOCAzLjc2NGwuNzk4IDcuMTc5YTEuMDAxIDEuMDAxIDAgMCAwIDEuOTczLjA5NmwyLjY5Ny0xMi44MTFBMTAuMDY1IDEwLjA2NSAwIDAgMSAzMyAzMy41MDN2MS44NWMtMS4wNDIuNzc5LTEuODYxIDEuODM4LTIuMzA3IDMuMDY1QTQ0LjU5IDQ0LjU5IDAgMCAwIDI4IDUzLjcwNVY1N2gtNi4wMDlBMzQuMTMgMzQuMTMgMCAwIDEgMjAgNDUuNTE1di0yLjU2OGEyNi43MyAyNi43MyAwIDAgMC0zLjYzNi0xMy40NUEyNC43MjYgMjQuNzI2IDAgMCAxIDEzIDE3LjA1NEMxMyAxMy4zNTEgMTQuMzMgOS44MDMgMTYuNzMxIDdIMzN6TTcgN2g3LjIwMkExNy40MTcgMTcuNDE3IDAgMCAwIDExIDE3LjA1NGEyNi43MyAyNi43MyAwIDAgMCAzLjYzNiAxMy40NUEyNC43MiAyNC43MiAwIDAgMSAxOCA0Mi45NDZ2Mi41NjhjMCAzLjkyMy42MzEgNy43NzkgMS44NyAxMS40ODVIN3oiIGZpbGw9IiM1MzJhOGMiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+" class="w-full h-full object-contain" />'
+                    },
+                    {
+                        name: 'Disinfectants',
+                        desc: 'Highly concentrated surface cleaners or cold sterilant solutions that have expired or are no longer in use.',
+                        icon: '<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik0zMSA0N2gydjJhMSAxIDAgMCAwIDEgMWg0YTEgMSAwIDAgMCAxLTF2LTJoMmExIDEgMCAwIDAgMS0xdi00YTEgMSAwIDAgMC0xLTFoLTJ2LTJhMSAxIDAgMCAwLTEtMWgtNGExIDEgMCAwIDAtMSAxdjJoLTJhMSAxIDAgMCAwLTEgMXY0YTEgMSAwIDAgMCAxIDF6bTEtNGgyYTEgMSAwIDAgMCAxLTF2LTJoMnYyYTEgMSAwIDAgMCAxIDFoMnYyaC0yYTEgMSAwIDAgMC0xIDF2MmgtMnYtMmExIDEgMCAwIDAtMS0xaC0yeiIgZmlsbD0iIzUzMmE4YyIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjxwYXRoIGQ9Ik00Ny44NiAzNC4xNiA0MSAyMi43MlYxOGgzYTEgMSAwIDAgMCAxLTF2LTJhNy4wMDggNy4wMDggMCAwIDAtNy03SDIwYTEgMSAwIDAgMC0xIDF2NGExIDEgMCAwIDAgMSAxaDN2OWExIDEgMCAwIDAgMSAxIDUgNSAwIDAgMCA1LTV2LTFoMnY0LjcybC02Ljg2IDExLjQ0QTE0Ljk5MyAxNC45OTMgMCAwIDAgMjIgNDEuODhWNTdhNSA1IDAgMCAwIDUgNWgxOGE1IDUgMCAwIDAgNS01VjQxLjg4YTE0Ljk5MyAxNC45OTMgMCAwIDAtMi4xNC03Ljcyek0yMyAxMmgtMnYtMmgyem00IDdhMy4wMTQgMy4wMTQgMCAwIDEtMiAyLjgzVjE4aDJ6bS0yLTN2LTZoMTNhNSA1IDAgMCAxIDUgNXYxem0xNCAydjRoLTZ2LTR6bS02LjQzIDZoNi44Nmw2IDEwSDI2LjU3ek00OCA1N2EzLjAwOSAzLjAwOSAwIDAgMS0zIDNIMjdhMy4wMDkgMy4wMDkgMCAwIDEtMy0zdi0zaDI0em0wLTVIMjRWNDEuODhBMTIuOSAxMi45IDAgMCAxIDI1LjQxIDM2aDIxLjE4QTEyLjkgMTIuOSAwIDAgMSA0OCA0MS44OHpNMTUgMTBoMnYyaC0yek0xMSAxMGgydjJoLTJ6TTcgMTBoMnYySDd6TTE0LjE3MSA3LjM2OGwxLTEuNzMyIDEuNzMyIDEtMSAxLjczMnpNMTAuNzA1IDUuMzY1bDEtMS43MzIgMS43MzIgMS0xIDEuNzMxek03LjI0MiAzLjM2N2wxLTEuNzMyIDEuNzMxIDEtMSAxLjczMnpNMTQuMTcgMTQuNjMybDEuNzMyLTEgMSAxLjczMi0xLjczMiAxek0xMC43MDYgMTYuNjMybDEuNzMxLTEgMSAxLjczMi0xLjczIDF6TTcuMjQyIDE4LjYzM2wxLjczMi0xIDEgMS43MzItMS43MzIgMXoiIGZpbGw9IiM1MzJhOGMiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+" class="w-full h-full object-contain" />'
+                    }
+                ]
             }
         };
 
-        function selectZone(zoneId) {
-            // Remove active class from all buttons
-            document.querySelectorAll('.hotspot-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Add active class to clicked button
-            const activeBtn = document.getElementById(`btn-${zoneId}`);
-            if(activeBtn) activeBtn.classList.add('active');
+        function loadContent(categoryId) {
+            // 1. Update Navigation Button States
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${categoryId}`).classList.add('active');
 
-            // Fetch data
-            const data = zoneData[zoneId];
+            // 2. Get Data
+            const data = wasteData[categoryId];
             const displayArea = document.getElementById('content-display');
 
-            // Create new content with animation trigger
-            const newContent = `
-                <div class="fade-in max-w-2xl mx-auto w-full">
-                    <div class="flex items-center gap-3 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-gray-100">
-                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-${data.color} text-white flex items-center justify-center text-base md:text-lg font-bold flex-shrink-0 shadow-md">
-                            ${data.number}
+            // 3. Generate HTML for the compact grid of sub-items
+            let itemsHtml = '';
+            data.items.forEach((item, index) => {
+                const staggerClass = `stagger-${index + 1}`;
+                itemsHtml += `
+                    <div class="fade-in-up opacity-0 ${staggerClass} bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-4 items-start relative overflow-hidden group">
+                        <!-- Subtle colour accent line on the left -->
+                        <div class="absolute left-0 top-0 bottom-0 w-1 ${data.badgeColor.split(' ')[0]} opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                        
+                        <div class="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 rounded-full bg-brand-bg text-brand-dark flex items-center justify-center border border-gray-200 mt-0.5">
+                            <div class="w-5 h-5 md:w-6 md:h-6">${item.icon}</div>
                         </div>
-                        <h2 class="text-lg md:text-xl lg:text-2xl font-bold text-brand-dark leading-tight">${data.title}</h2>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-gray-800 mb-1 leading-tight text-sm md:text-base">${item.name}</h3>
+                            <p class="text-xs md:text-sm text-gray-600 leading-snug">${item.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 4. Build Full Content Template
+            const newContent = `
+                <div class="fade-in-up opacity-0 h-full flex flex-col pt-2">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] uppercase tracking-wider font-bold text-white shadow-sm ${data.badgeColor}">
+                            ${data.badgeText}
+                        </span>
                     </div>
                     
-                    <div class="bg-brand-bg/50 border-l-4 border-${data.color} p-4 rounded-r-lg">
-                        <div class="text-gray-800 text-sm md:text-base leading-snug md:leading-relaxed">
-                            ${data.content}
-                        </div>
+                    <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-brand-dark tracking-tight mb-3">${data.title}</h2>
+                    
+                    <p class="text-gray-600 text-sm md:text-base leading-relaxed max-w-3xl mb-6 md:mb-8 pb-6 border-b border-gray-200">
+                        ${data.description}
+                    </p>
+
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Specific Items & Handling</h3>
+                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-3 md:gap-4 pb-10">
+                        ${itemsHtml}
                     </div>
                 </div>
             `;
 
-            // Clear current and insert new
+            // 5. Render
             displayArea.innerHTML = '';
-            
-            // Small timeout ensures the DOM registers the change so the CSS animation fires properly
             setTimeout(() => {
                 displayArea.innerHTML = newContent;
-            }, 10);
+            }, 20);
         }
+
+        // Initialise default view on load
+        window.onload = () => {
+            loadContent('general');
+        };
     </script>
 </body>
 </html>
